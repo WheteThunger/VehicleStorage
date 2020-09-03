@@ -1,16 +1,32 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Oxide.Plugins
 {
-    [Info("Larger Car Storage", "WhiteThunder", "1.0.0")]
+    [Info("Larger Car Storage", "WhiteThunder", "2.0.0")]
     [Description("Increases the capacity of storage modules on modular cars.")]
     internal class LargerCarStorage : CovalencePlugin
     {
         #region Fields
 
-        private static LargerCarStorage PluginInstance;
+        private const int ItemsPerRow = 6;
+
+        private const string PermissionSizePrefix = "largercarstorage.size";
+        private const int MinPermissionSize = 4;
+        private const int MaxPermissionSize = 7;
+
+        private const string MaximumCapacityPanelName = "genericlarge";
+        private const int MaximumCapacity = 42;
+
+        private readonly Dictionary<string, int> DisplayCapacityByPanelName = new Dictionary<string, int>
+        {
+            ["modularcar.storage"] = 18,
+            ["largewoodbox"] = 30,
+            ["generic"] = 36,
+            [MaximumCapacityPanelName] = MaximumCapacity,
+        };
 
         private LargerCarStorageConfig PluginConfig;
 
@@ -20,44 +36,138 @@ namespace Oxide.Plugins
 
         private void Init()
         {
-            PluginInstance = this;
             PluginConfig = Config.ReadObject<LargerCarStorageConfig>();
-            PluginConfig.Validate();
+
+            for (var size = MinPermissionSize; size <= MaxPermissionSize; size++)
+                permission.RegisterPermission(GetSizePermission(size), this);
         }
 
-        private void Unload()
+        private void OnServerInitialized(bool initialBoot)
         {
-            PluginInstance = null;
-        }
-
-        private void OnServerInitialized(bool isServerInitializing)
-        {
-            // The OnEntitySpawned hook already covers server init so this is just for late loading
-            if (!isServerInitializing)
+            // The OnEntitySpawned hook already covers server boot so this is just for late loading
+            if (!initialBoot)
             {
-                foreach (var engineModule in BaseNetworkable.serverEntities.OfType<VehicleModuleStorage>())
-                    AdjustStorageCapacity(engineModule);
+                foreach (var car in BaseNetworkable.serverEntities.OfType<ModularCar>())
+                    RefreshStorageCapacity(car);
             }
         }
 
         private void OnEntitySpawned(VehicleModuleStorage storageModule)
         {
-            NextTick(() => AdjustStorageCapacity(storageModule));
+            NextTick(() => {
+                if (storageModule == null) return;
+                var car = storageModule.Vehicle as ModularCar;
+                var capacity = GetPlayerAllowedCapacity(car?.OwnerID ?? 0);
+                var panelName = GetSmallestPanelForCapacity(capacity);
+                RefreshStorageCapacity(storageModule, capacity, panelName);
+            });
         }
+
+        private void OnGroupPermissionGranted(string group, string perm)
+        {
+            if (!perm.StartsWith(PermissionSizePrefix)) return;
+            OnStoragePermissionChanged();
+        }
+
+        private void OnGroupPermissionRevoked(string group, string perm)
+        {
+            if (!perm.StartsWith(PermissionSizePrefix)) return;
+            OnStoragePermissionChanged();
+        }
+
+        private void OnUserPermissionGranted(string userId, string perm)
+        {
+            if (!perm.StartsWith(PermissionSizePrefix)) return;
+            OnStoragePermissionChanged(userId);
+        }
+
+        private void OnUserPermissionRevoked(string userId, string perm)
+        {
+            if (!perm.StartsWith(PermissionSizePrefix)) return;
+            OnStoragePermissionChanged(userId);
+        }
+
+        #endregion
+
+        #region API
+
+        private void API_RefreshStorageCapacity(ModularCar car) => RefreshStorageCapacity(car);
 
         #endregion
 
         #region Helper Methods
 
-        private void AdjustStorageCapacity(VehicleModuleStorage storageModule)
+        private string GetSizePermission(int numRows) => $"{PermissionSizePrefix}.{numRows}";
+
+        private void OnStoragePermissionChanged(string userIdString = "")
         {
-            if (storageModule == null || storageModule is VehicleModuleEngine) return;
+            foreach (var car in BaseNetworkable.serverEntities.OfType<ModularCar>())
+            {
+                if (car.OwnerID == 0 || userIdString != string.Empty && userIdString != car.OwnerID.ToString())
+                    continue;
+
+                RefreshStorageCapacity(car);
+            }
+        }
+
+        private void RefreshStorageCapacity(ModularCar car)
+        {
+            var capacity = GetPlayerAllowedCapacity(car?.OwnerID ?? 0);
+            var panelName = GetSmallestPanelForCapacity(capacity);
+
+            foreach (var module in car.AttachedModuleEntities)
+            {
+                var storageModule = module as VehicleModuleStorage;
+                if (storageModule != null)
+                    RefreshStorageCapacity(storageModule, capacity, panelName);
+            }
+        }
+
+        private void RefreshStorageCapacity(VehicleModuleStorage storageModule, int capacity, string panelName)
+        {
+            if (storageModule is VehicleModuleEngine) return;
 
             var container = storageModule.GetContainer() as StorageContainer;
             if (container == null) return;
 
-            container.panelName = PluginConfig.GlobalSettings.LootPanelName;
-            container.inventory.capacity = PluginConfig.GlobalSettings.StorageCapacity;
+            container.panelName = panelName;
+            container.inventory.capacity = capacity;
+        }
+
+        private int GetPlayerAllowedCapacity(ulong userId)
+        {
+            int defaultCapacity = PluginConfig.GetCapacity();
+
+            if (userId == 0)
+                return defaultCapacity;
+
+            var userIdString = userId.ToString();
+
+            for (var size = MaxPermissionSize; size >= MinPermissionSize; size--)
+            {
+                int capacity = size * ItemsPerRow;
+                if (capacity > defaultCapacity && permission.UserHasPermission(userIdString, GetSizePermission(size)))
+                    return capacity;
+            }
+
+            return defaultCapacity;
+        }
+
+        private string GetSmallestPanelForCapacity(int capacity)
+        {
+            string panelName = MaximumCapacityPanelName;
+            int displayCapacity = MaximumCapacity;
+
+            foreach (var entry in DisplayCapacityByPanelName)
+            {
+                if (entry.Value >= capacity && entry.Value < displayCapacity)
+                {
+                    panelName = entry.Key;
+                    displayCapacity = entry.Value;
+                }
+            }
+
+            return panelName;
         }
 
         #endregion
@@ -68,38 +178,24 @@ namespace Oxide.Plugins
 
         internal class LargerCarStorageConfig
         {
-            [JsonProperty("GlobalSettings")]
-            public GlobalStorageSettings GlobalSettings = new GlobalStorageSettings();
+            [JsonProperty("DefaultCapacityRows")]
+            public int DefaultCapacityRows = 3;
 
-            [JsonIgnore]
-            private readonly Dictionary<string, int> MaxCapacityByPanelName = new Dictionary<string, int>
-            {
-                ["smallwoodbox"] = 12,
-                ["modularcar.storage"] = 18,
-                ["largewoodbox"] = 30,
-                ["generic"] = 36,
-                ["genericlarge"] = 42,
-            };
+            // Legacy field for backwards compatibility
+            [JsonProperty("GlobalSettings", DefaultValueHandling = DefaultValueHandling.Ignore)]
+            public StorageSettings GlobalSettings = null;
 
-            public void Validate()
+            public int GetCapacity()
             {
-                int maxCapacity;
-                if (MaxCapacityByPanelName.TryGetValue(GlobalSettings.LootPanelName, out maxCapacity) && GlobalSettings.StorageCapacity > maxCapacity)
-                {
-                    PluginInstance.LogWarning("Panel name '{0}' does not support {1} capacity. Reducing to {2}.", GlobalSettings.LootPanelName, GlobalSettings.StorageCapacity, maxCapacity);
-                    GlobalSettings.StorageCapacity = maxCapacity;
-                    PluginInstance.Config.WriteObject(this, true);
-                }
+                int capacity = GlobalSettings != null ? GlobalSettings.StorageCapacity : DefaultCapacityRows * ItemsPerRow;
+                return Math.Min(Math.Max(capacity, 0), MaximumCapacity);
             }
         }
 
-        internal class GlobalStorageSettings
+        internal class StorageSettings
         {
-            [JsonProperty("LootPanelName")]
-            public string LootPanelName = "genericlarge";
-
             [JsonProperty("StorageCapacity")]
-            public int StorageCapacity = 42;
+            public int StorageCapacity = MaximumCapacity;
         }
 
         #endregion
