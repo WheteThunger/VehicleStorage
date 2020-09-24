@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Oxide.Plugins
 {
-    [Info("Larger Car Storage", "WhiteThunder", "2.0.0")]
+    [Info("Larger Car Storage", "WhiteThunder", "2.0.1")]
     [Description("Increases the capacity of storage modules on modular cars.")]
     internal class LargerCarStorage : CovalencePlugin
     {
@@ -86,6 +86,9 @@ namespace Oxide.Plugins
             if (!perm.StartsWith(PermissionSizePrefix)) return;
             OnStoragePermissionChanged(userId);
         }
+
+        // Compatibility with plugin: Claim Vehicle Ownership
+        private void OnVehicleOwnershipChanged(ModularCar car) => RefreshStorageCapacity(car);
 
         #endregion
 

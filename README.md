@@ -1,5 +1,7 @@
 **Larger Car Storage** allows you to alter the capacity of storage modules on modular cars. Supports a global setting for all cars, as well as a permission system to selectively increase the capacity of storage modules on cars owned by privileged players.
 
+Compatible with [Claim Vehicle Ownership](https://umod.org/plugins/claim-vehicle-ownership). That is, changing ownership of a car automatically updates storage capacity of all modules on the car.
+
 ## Permissions
 
 Granting one of the following permissions to a player will increase the number of usable storage **rows** of each storage module on cars that player owns. For example, if you grant a player the `largercarstorage.size.5` permission and then spawn a car for them using a plugin that sets the player's Steam ID on the car, all storage modules on that car (current and future) will have 5 rows of storage.
@@ -27,7 +29,7 @@ Default configuration:
 
 ## Disclaimer
 
-If you increase and then later reduce the capacity of a car's storage modules, either via the plugin configuration or player permissions, be mindful that some items already in storage modules may no longer be visible if they were placed in the lower slots. This is actually pretty safe to do because the module cannot be removed from the car while it has items in it, and the items are recoverable by clicking the "take internal items" button while the storage module is selected at a car lift. The items will also drop if the car is destroyed.
+If you increase and then later decrease the capacity of a car's storage modules, either via the plugin configuration or player permissions, be mindful that some items already in storage modules may no longer be visible if they were placed in the lower slots. This is actually pretty safe to do because the module cannot be removed from the car while it has items in it, and the items are recoverable by clicking the "take internal items" button while the storage module is selected at a car lift. The items will also drop if the car is destroyed.
 
 ## Uninstallation
 
