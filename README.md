@@ -1,6 +1,6 @@
 **Larger Car Storage** allows you to alter the capacity of storage modules on modular cars. Supports a global setting for all cars, as well as a permission system to selectively increase the capacity of storage modules on cars owned by privileged players.
 
-Compatible with [Claim Vehicle Ownership](https://umod.org/plugins/claim-vehicle-ownership). That is, changing ownership of a car automatically updates storage capacity of all modules on the car.
+Compatible with [Claim Vehicle Ownership](https://umod.org/plugins/claim-vehicle-ownership). Meaning, changing ownership of a car automatically updates storage capacity of all modules on the car.
 
 ## Permissions
 
