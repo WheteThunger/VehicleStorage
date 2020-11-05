@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Oxide.Plugins
 {
-    [Info("Larger Car Storage", "WhiteThunder", "2.0.1")]
+    [Info("Larger Car Storage", "WhiteThunder", "2.0.2")]
     [Description("Increases the capacity of storage modules on modular cars.")]
     internal class LargerCarStorage : CovalencePlugin
     {
@@ -131,7 +131,7 @@ namespace Oxide.Plugins
             if (storageModule is VehicleModuleEngine) return;
 
             var container = storageModule.GetContainer() as StorageContainer;
-            if (container == null) return;
+            if (container == null || container is ModularVehicleShopFront) return;
 
             container.panelName = panelName;
             container.inventory.capacity = capacity;
