@@ -396,7 +396,7 @@ namespace Oxide.Plugins
             [JsonProperty("Position")]
             public Vector3 Position;
 
-            [JsonProperty("RotationAngles")]
+            [JsonProperty("RotationAngles", DefaultValueHandling = DefaultValueHandling.Ignore)]
             public Vector3 RotationAngles;
 
             [JsonProperty("ParentBone", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -484,7 +484,7 @@ namespace Oxide.Plugins
             [JsonProperty("ProfilesRequiringPermission")]
             public VehicleProfile[] ProfilesRequiringPermission;
 
-            [JsonProperty("ContainerPresets")]
+            [JsonProperty("ContainerPresets", DefaultValueHandling = DefaultValueHandling.Ignore)]
             public Dictionary<string, ContainerPreset> ContainerPresets;
 
             [JsonIgnore]
@@ -1273,13 +1273,13 @@ namespace Oxide.Plugins
                         PermissionSuffix = "1stash",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["MiddleStash"] = 42,
+                            ["Middle Stash"] = 42,
                         },
                     },
                 },
                 ContainerPresets = new Dictionary<string, ContainerPreset>
                 {
-                    ["MiddleStash"] = new ContainerPreset
+                    ["Middle Stash"] = new ContainerPreset
                     {
                         Prefab = HabStoragePrefab,
                         Position = new Vector3(0, 0.83f, 0.55f),

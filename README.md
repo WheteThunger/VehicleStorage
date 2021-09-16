@@ -639,8 +639,7 @@ Default configuration:
         "PermissionSuffix": "7rows",
         "BuiltInStorageCapacity": 42
       }
-    ],
-    "ContainerPresets": null
+    ]
   },
   "RHIB": {
     "DefaultProfile": {
@@ -820,11 +819,6 @@ Default configuration:
           "x": -0.5,
           "y": 0.85,
           "z": 1.75
-        },
-        "RotationAngles": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
         }
       },
       "RightBox": {
@@ -833,11 +827,6 @@ Default configuration:
           "x": 0.5,
           "y": 0.85,
           "z": 1.75
-        },
-        "RotationAngles": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
         }
       }
     }
@@ -850,12 +839,12 @@ Default configuration:
       {
         "PermissionSuffix": "1stash",
         "AdditionalStorage": {
-          "MiddleStash": 42
+          "Middle Stash": 42
         }
       }
     ],
     "ContainerPresets": {
-      "MiddleStash": {
+      "Middle Stash": {
         "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
         "Position": {
           "x": 0.0,
@@ -981,6 +970,7 @@ Each vehicle type has the following options.
   - `Prefab` -- Determines the container prefab to spawn. Must be a valid storage container.
   - `Position` -- Determines the position of the storage container relative to the vehicle.
   - `RotationAngles` -- Determines the rotation of the storage container relative to the vehicle.
+  - `ParentBone` -- Determines which bone the storage container will be parented relative to on the vehicle.
 
 ## Developer API
 
