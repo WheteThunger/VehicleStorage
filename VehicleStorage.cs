@@ -156,9 +156,13 @@ namespace Oxide.Plugins
 
         #region Dependencies
 
-        private bool IsCargoTrain(BaseEntity vehicle)
+        private bool IsCargoTrain(BaseEntity entity)
         {
-            var result = CargoTrainEvent?.Call("IsTrainSpecial", vehicle.net.ID);
+            var workcart = entity as TrainEngine;
+            if (workcart == null)
+                return false;
+
+            var result = CargoTrainEvent?.Call("IsTrainSpecial", workcart.net.ID);
             return result is bool && (bool)result;
         }
 
