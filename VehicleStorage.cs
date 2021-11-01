@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.0.0")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.0.1")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -31,18 +31,8 @@ namespace Oxide.Plugins
         private const string StashDeployEffectPrefab = "assets/prefabs/deployable/small stash/effects/small-stash-deploy.prefab";
         private const string BoxDeployEffectPrefab = "assets/prefabs/deployable/woodenbox/effects/wooden-box-deploy.prefab";
 
-        private const string MaximumCapacityPanelName = "genericlarge";
+        private const string ResizableLootPanelName = "generic_resizable";
         private const int MaximumCapacity = 42;
-
-        private readonly Dictionary<string, int> DisplayCapacityByPanelName = new Dictionary<string, int>
-        {
-            ["smallstash"] = 6,
-            ["smallwoodbox"] = 12,
-            ["modularcar.storage"] = 18,
-            ["largewoodbox"] = 30,
-            ["generic"] = 36,
-            [MaximumCapacityPanelName] = MaximumCapacity,
-        };
 
         private readonly Dictionary<VehicleConfig, HashSet<BaseEntity>> _allSupportedVehicles = new Dictionary<VehicleConfig, HashSet<BaseEntity>>();
 
@@ -273,23 +263,6 @@ namespace Oxide.Plugins
             return null;
         }
 
-        private string GetSmallestPanelNameForCapacity(int capacity)
-        {
-            string panelName = MaximumCapacityPanelName;
-            int displayCapacity = MaximumCapacity;
-
-            foreach (var entry in DisplayCapacityByPanelName)
-            {
-                if (entry.Value >= capacity && entry.Value < displayCapacity)
-                {
-                    panelName = entry.Key;
-                    displayCapacity = entry.Value;
-                }
-            }
-
-            return panelName;
-        }
-
         private void MaybeIncreaseCapacity(StorageContainer container, int capacity)
         {
             // Don't decrease capacity, in case there are items in those slots.
@@ -298,7 +271,7 @@ namespace Oxide.Plugins
                 return;
 
             container.inventory.capacity = capacity;
-            container.panelName = GetSmallestPanelNameForCapacity(capacity);
+            container.panelName = ResizableLootPanelName;
         }
 
         private void AddOrUpdateExtraContainers(BaseEntity vehicle, VehicleProfile vehicleProfile)
