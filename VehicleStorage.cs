@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.0.1")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.0.2")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -265,13 +265,12 @@ namespace Oxide.Plugins
 
         private void MaybeIncreaseCapacity(StorageContainer container, int capacity)
         {
+            container.panelName = ResizableLootPanelName;
+
             // Don't decrease capacity, in case there are items in those slots.
             // It's possible to handle that better, but not a priority as of writing this.
-            if (capacity == -1 || container.inventory.capacity >= capacity)
-                return;
-
-            container.inventory.capacity = capacity;
-            container.panelName = ResizableLootPanelName;
+            if (capacity != -1 && container.inventory.capacity < capacity)
+                container.inventory.capacity = capacity;
         }
 
         private void AddOrUpdateExtraContainers(BaseEntity vehicle, VehicleProfile vehicleProfile)
