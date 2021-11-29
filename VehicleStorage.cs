@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.0.2")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.1.0")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -326,6 +326,19 @@ namespace Oxide.Plugins
 
         private void RefreshVehicleStorage(BaseEntity vehicle)
         {
+            if (vehicle is ModularCar)
+            {
+                foreach (var child in vehicle.children)
+                {
+                    var module = child as BaseVehicleModule;
+                    if (module != null)
+                    {
+                        RefreshVehicleStorage(module);
+                    }
+                }
+                return;
+            }
+
             var vehicleConfig = _pluginConfig.GetVehicleConfig(vehicle);
             if (vehicleConfig == null)
                 return;
