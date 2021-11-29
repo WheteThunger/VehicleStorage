@@ -17,7 +17,7 @@
 
 ## Permissions
 
-***Note: Permissions are an optional feature of this plugin. If you simply want to alter the storage capacity of all vehicles of a given type, or if you want to add extra storage containers to all vehicles of a given type, simply skip ahead to the Configuration section and configure the `DefaultProfile` of the vehicles you care about.***
+***Note: Permissions are an optional feature of this plugin. If you simply want to alter the storage capacity of all vehicles of a given type, or if you want to add extra storage containers to all vehicles of a given type, skip ahead to the Configuration section and configure the `DefaultProfile` of the vehicles you care about.***
 
 Permissions in this plugin apply solely based on vehicle ownership. Vehicle ownership is **not** a vanilla Rust concept. This means that, except for Kayaks, you will need another plugin to assign vehicle ownership. Fortunately, many plugins already do, and some are quite immersive.
 
@@ -34,6 +34,14 @@ The following permissions come with this plugin's **default configuration**. You
 
 - `vehiclestorage.ridablehorse.1stash` -- 1 x 42-slot stash (42 total capacity)
 - `vehiclestorage.ridablehorse.2stashes` -- 2 x 42-slot stash (84 total capacity)
+
+#### Modular car camper module
+
+- `vehiclestorage.modularcarcamper.3rows` -- 3 rows (18 total capacity)
+- `vehiclestorage.modularcarcamper.4rows` -- 4 rows (24 total capacity)
+- `vehiclestorage.modularcarcamper.5rows` -- 5 rows (30 total capacity)
+- `vehiclestorage.modularcarcamper.6rows` -- 6 rows (36 total capacity)
+- `vehiclestorage.modularcarcamper.7rows` -- 7 rows (42 total capacity)
 
 #### Modular car storage module
 
@@ -617,6 +625,33 @@ Default configuration:
         }
       }
     }
+  },
+  "ModularCarCamperModule": {
+    "DefaultProfile": {
+      "BuiltInStorageCapacity": 12
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "3rows",
+        "BuiltInStorageCapacity": 18
+      },
+      {
+        "PermissionSuffix": "4rows",
+        "BuiltInStorageCapacity": 24
+      },
+      {
+        "PermissionSuffix": "5rows",
+        "BuiltInStorageCapacity": 30
+      },
+      {
+        "PermissionSuffix": "6rows",
+        "BuiltInStorageCapacity": 36
+      },
+      {
+        "PermissionSuffix": "7rows",
+        "BuiltInStorageCapacity": 42
+      }
+    ]
   },
   "ModularCarStorageModule": {
     "DefaultProfile": {

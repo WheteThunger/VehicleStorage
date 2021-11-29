@@ -554,6 +554,18 @@ namespace Oxide.Plugins
                 (entity as VehicleModuleStorage)?.Vehicle.OwnerID ?? 0;
         }
 
+        private class ModularCarCamperModuleConfig : VehicleConfig
+        {
+            public override string VehicleType => "modularcarcamper";
+            public override string PrefabPath => "assets/content/vehicles/modularcar/module_entities/2module_camper.prefab";
+
+            public override StorageContainer GetDefaultContainer(BaseEntity entity) =>
+                (entity as VehicleModuleCamper)?.activeStorage.Get(serverside: true);
+
+            public override ulong GetOwnerId(BaseEntity entity) =>
+                (entity as VehicleModuleCamper)?.Vehicle.OwnerID ?? 0;
+        }
+
         private class RHIBConfig : RowboatConfig
         {
             public override string VehicleType => "rhib";
@@ -1011,6 +1023,44 @@ namespace Oxide.Plugins
                 },
             };
 
+            [JsonProperty("ModularCarCamperModule")]
+            public ModularCarCamperModuleConfig ModularCarCamperModule = new ModularCarCamperModuleConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    BuiltInStorageCapacity = 12,
+                },
+
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "3rows",
+                        BuiltInStorageCapacity = 18,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "4rows",
+                        BuiltInStorageCapacity = 24,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "5rows",
+                        BuiltInStorageCapacity = 30,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "6rows",
+                        BuiltInStorageCapacity = 36,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "7rows",
+                        BuiltInStorageCapacity = 42,
+                    },
+                },
+            };
+
             [JsonProperty("ModularCarStorageModule")]
             public ModularCarStorageModuleConfig ModularCarStorageModule = new ModularCarStorageModuleConfig
             {
@@ -1372,6 +1422,7 @@ namespace Oxide.Plugins
                     Kayak,
                     MagnetCrane,
                     Minicopter,
+                    ModularCarCamperModule,
                     ModularCarStorageModule,
                     RHIB,
                     RidableHorse,
