@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.1.0")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.1.1")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -208,7 +208,7 @@ namespace Oxide.Plugins
         private void SetupStorage(StorageContainer container, ContainerPreset preset)
         {
             container.pickup.enabled = false;
-            container.dropChance = 100;
+            container.dropsLoot = true;
             RemoveProblemComponents(container);
         }
 
