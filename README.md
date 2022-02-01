@@ -50,6 +50,24 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.modularcarstorage.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.modularcarstorage.7rows` -- 7 rows (42 total capacity)
 
+#### Snowmobile
+
+- `vehiclestorage.snowmobile.3rows` -- 3 rows (18 total capacity)
+- `vehiclestorage.snowmobile.4rows` -- 4 rows (24 total capacity)
+- `vehiclestorage.snowmobile.5rows` -- 5 rows (30 total capacity)
+- `vehiclestorage.snowmobile.6rows` -- 6 rows (36 total capacity)
+- `vehiclestorage.snowmobile.7rows` -- 7 rows (42 total capacity)
+- `vehiclestorage.snowmobile.2stashes` -- 7 rows + 2 x 42-slot stash (126 total capacity)
+
+#### Tomaha snowmobile
+
+- `vehiclestorage.tomaha.3rows` -- 3 rows (18 total capacity)
+- `vehiclestorage.tomaha.4rows` -- 4 rows (24 total capacity)
+- `vehiclestorage.tomaha.5rows` -- 5 rows (30 total capacity)
+- `vehiclestorage.tomaha.6rows` -- 6 rows (36 total capacity)
+- `vehiclestorage.tomaha.7rows` -- 7 rows (42 total capacity)
+- `vehiclestorage.tomaha.2stashes` -- 7 rows + 2 x 42-slot stash (126 total capacity)
+
 #### Workcart
 
 - `vehiclestorage.workcart.1box` -- 1 x 42-slot box (42 total capacity)
@@ -894,6 +912,70 @@ Default configuration:
       }
     }
   },
+  "Snowmobile": {
+    "DefaultProfile": {
+      "BuiltInStorageCapacity": 12,
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "3rows",
+        "BuiltInStorageCapacity": 18
+      },
+      {
+        "PermissionSuffix": "4rows",
+        "BuiltInStorageCapacity": 24
+      },
+      {
+        "PermissionSuffix": "5rows",
+        "BuiltInStorageCapacity": 30
+      },
+      {
+        "PermissionSuffix": "6rows",
+        "BuiltInStorageCapacity": 36
+      },
+      {
+        "PermissionSuffix": "7rows",
+        "BuiltInStorageCapacity": 42
+      },
+      {
+        "PermissionSuffix": "2stashes",
+        "BuiltInStorageCapacity": 42,
+        "AdditionalStorage": {
+          "Back Left Stash": 42,
+          "Back Right Stash": 42
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Back Left Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": -0.21,
+          "y": 0.555,
+          "z": -1.08
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 270.0
+        }
+      },
+      "Back Right Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.21,
+          "y": 0.555,
+          "z": -1.08
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 90.0
+        }
+      }
+    }
+  },
   "SoloSubmarine": {
     "DefaultProfile": {
       "BuiltInStorageCapacity": 18,
@@ -920,12 +1002,12 @@ Default configuration:
         "PermissionSuffix": "1stash",
         "BuiltInStorageCapacity": 42,
         "AdditionalStorage": {
-          "BackLeftStash": 42
+          "Back Left Stash": 42
         }
       }
     ],
     "ContainerPresets": {
-      "BackLeftStash": {
+      "Back Left Stash": {
         "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
         "Position": {
           "x": -0.34,
@@ -936,6 +1018,70 @@ Default configuration:
           "x": 300.0,
           "y": 270.0,
           "z": 270.0
+        }
+      }
+    }
+  },
+  "Tomaha": {
+    "DefaultProfile": {
+      "BuiltInStorageCapacity": 12,
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "3rows",
+        "BuiltInStorageCapacity": 18
+      },
+      {
+        "PermissionSuffix": "4rows",
+        "BuiltInStorageCapacity": 24
+      },
+      {
+        "PermissionSuffix": "5rows",
+        "BuiltInStorageCapacity": 30
+      },
+      {
+        "PermissionSuffix": "6rows",
+        "BuiltInStorageCapacity": 36
+      },
+      {
+        "PermissionSuffix": "7rows",
+        "BuiltInStorageCapacity": 42
+      },
+      {
+        "PermissionSuffix": "2stashes",
+        "BuiltInStorageCapacity": 42,
+        "AdditionalStorage": {
+          "Back Left Stash": 42,
+          "Back Right Stash": 42
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Back Left Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": -0.21,
+          "y": 0.37,
+          "z": -1.08
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 270.0
+        }
+      },
+      "Back Right Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.21,
+          "y": 0.37,
+          "z": -1.08
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 90.0
         }
       }
     }
