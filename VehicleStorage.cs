@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.1.1")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.2.0")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -612,6 +612,15 @@ namespace Oxide.Plugins
             public override string PrefabPath => "assets/content/vehicles/sedan_a/sedantest.entity.prefab";
         }
 
+        private class SnowmobileConfig : VehicleConfig
+        {
+            public override string VehicleType => "snowmobile";
+            public override string PrefabPath => "assets/content/vehicles/snowmobiles/snowmobile.prefab";
+
+            public override StorageContainer GetDefaultContainer(BaseEntity entity) =>
+                (entity as Snowmobile)?.GetItemContainer();
+        }
+
         private class SoloSubmarineConfig : VehicleConfig
         {
             public override string VehicleType => "solosub";
@@ -619,6 +628,15 @@ namespace Oxide.Plugins
 
             public override StorageContainer GetDefaultContainer(BaseEntity entity) =>
                 (entity as BaseSubmarine)?.GetItemContainer();
+        }
+
+        private class TomahaConfig : VehicleConfig
+        {
+            public override string VehicleType => "tomaha";
+            public override string PrefabPath => "assets/content/vehicles/snowmobiles/tomahasnowmobile.prefab";
+
+            public override StorageContainer GetDefaultContainer(BaseEntity entity) =>
+                (entity as Snowmobile)?.GetItemContainer();
         }
 
         private class WorkcartConfig : VehicleConfig
@@ -1327,6 +1345,69 @@ namespace Oxide.Plugins
                 },
             };
 
+            [JsonProperty("Snowmobile")]
+            public SnowmobileConfig Snowmobile = new SnowmobileConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    BuiltInStorageCapacity = 12,
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "3rows",
+                        BuiltInStorageCapacity = 18,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "4rows",
+                        BuiltInStorageCapacity = 24,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "5rows",
+                        BuiltInStorageCapacity = 30,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "6rows",
+                        BuiltInStorageCapacity = 36,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "7rows",
+                        BuiltInStorageCapacity = 42,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2stashes",
+                        BuiltInStorageCapacity = 42,
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Back Left Stash"] = 42,
+                            ["Back Right Stash"] = 42,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Back Left Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(-0.21f, 0.555f, -1.08f),
+                        RotationAngles = new Vector3(0, 270, 270),
+                    },
+                    ["Back Right Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0.21f, 0.555f, -1.08f),
+                        RotationAngles = new Vector3(0, 90, 90),
+                    },
+                },
+            };
+
             [JsonProperty("SoloSubmarine")]
             public SoloSubmarineConfig SoloSubmarine = new SoloSubmarineConfig
             {
@@ -1363,17 +1444,80 @@ namespace Oxide.Plugins
                         BuiltInStorageCapacity = 42,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["BackLeftStash"] = 42,
+                            ["Back Left Stash"] = 42,
                         },
                     },
                 },
                 ContainerPresets = new Dictionary<string, ContainerPreset>
                 {
-                    ["BackLeftStash"] = new ContainerPreset
+                    ["Back Left Stash"] = new ContainerPreset
                     {
                         Prefab = HabStoragePrefab,
                         Position = new Vector3(-0.34f, 1.16f, -0.7f),
                         RotationAngles = new Vector3(300, 270, 270),
+                    },
+                },
+            };
+
+            [JsonProperty("Tomaha")]
+            public TomahaConfig Tomaha = new TomahaConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    BuiltInStorageCapacity = 12,
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "3rows",
+                        BuiltInStorageCapacity = 18,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "4rows",
+                        BuiltInStorageCapacity = 24,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "5rows",
+                        BuiltInStorageCapacity = 30,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "6rows",
+                        BuiltInStorageCapacity = 36,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "7rows",
+                        BuiltInStorageCapacity = 42,
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2stashes",
+                        BuiltInStorageCapacity = 42,
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Back Left Stash"] = 42,
+                            ["Back Right Stash"] = 42,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Back Left Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(-0.21f, 0.37f, -1.08f),
+                        RotationAngles = new Vector3(0, 270, 270),
+                    },
+                    ["Back Right Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0.21f, 0.37f, -1.08f),
+                        RotationAngles = new Vector3(0, 90, 90),
                     },
                 },
             };
@@ -1442,7 +1586,9 @@ namespace Oxide.Plugins
                     Rowboat,
                     ScrapTransportHelicopter,
                     Sedan,
+                    Snowmobile,
                     SoloSubmarine,
+                    Tomaha,
                     Workcart,
                 };
 
