@@ -28,13 +28,24 @@ namespace Oxide.Plugins
         private const string RhibStoragePrefab = "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab";
         private const string HabStoragePrefab = "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab";
 
+        private const string ItemDropPrefab = "assets/prefabs/misc/item drop/item_drop.prefab";
+        private const string ItemDropBuoyantPrefab = "assets/prefabs/misc/item drop/item_drop_buoyant.prefab";
+
         private const string StashDeployEffectPrefab = "assets/prefabs/deployable/small stash/effects/small-stash-deploy.prefab";
         private const string BoxDeployEffectPrefab = "assets/prefabs/deployable/woodenbox/effects/wooden-box-deploy.prefab";
 
         private const string ResizableLootPanelName = "generic_resizable";
         private const int MaximumCapacity = 42;
 
-        private readonly Dictionary<VehicleConfig, HashSet<BaseEntity>> _allSupportedVehicles = new Dictionary<VehicleConfig, HashSet<BaseEntity>>();
+        private static readonly object False = false;
+
+        private readonly VehicleTracker _vehicleTracker = new VehicleTracker();
+        private readonly ReskinEventManager _reskinEventManager;
+
+        public VehicleStorage()
+        {
+            _reskinEventManager = new ReskinEventManager(_vehicleTracker);
+        }
 
         #endregion
 
@@ -67,14 +78,7 @@ namespace Oxide.Plugins
             if (vehicleConfig == null)
                 return;
 
-            HashSet<BaseEntity> vehicleList;
-            if (!_allSupportedVehicles.TryGetValue(vehicleConfig, out vehicleList))
-            {
-                vehicleList = new HashSet<BaseEntity>();
-                _allSupportedVehicles[vehicleConfig] = vehicleList;
-            }
-
-            vehicleList.Add(entity);
+            _vehicleTracker.AddVehicle(vehicleConfig, entity);
 
             // Wait 2 ticks to give Vehicle Vendor Options an opportunity to set ownership.
             NextTick(() => NextTick(() =>
@@ -89,23 +93,22 @@ namespace Oxide.Plugins
         private void OnEntityKill(BaseEntity entity)
         {
             var vehicleConfig = _pluginConfig.GetVehicleConfig(entity);
-            if (vehicleConfig == null)
+            if (vehicleConfig == null || vehicleConfig.ContainerPresets == null)
                 return;
 
-            HashSet<BaseEntity> vehicleList;
-            if (_allSupportedVehicles.TryGetValue(vehicleConfig, out vehicleList))
+            if (!_vehicleTracker.RemoveVehicle(vehicleConfig, entity))
+                return;
+
+            foreach (var child in entity.children)
             {
-                vehicleList.Remove(entity);
+                var container = child as StorageContainer;
+                if (container == null)
+                    continue;
 
-                foreach (var child in entity.children)
-                {
-                    var container = child as StorageContainer;
-                    if (container == null)
-                        continue;
+                if (!vehicleConfig.ContainerPresets.ContainsKey(container.name))
+                    continue;
 
-                    if (vehicleConfig.ContainerPresets?.ContainsKey(container.name) ?? false)
-                        container.DropItems();
-                }
+                container.DropItems();
             }
         }
 
@@ -137,6 +140,91 @@ namespace Oxide.Plugins
         private void OnRidableAnimalClaimed(RidableHorse horse, BasePlayer player)
         {
             RefreshVehicleStorage(horse);
+        }
+
+        private void OnEntityReskin(Snowmobile snowmobile, ItemSkinDirectory.Skin skin, BasePlayer player)
+        {
+            var vehicleConfig = _pluginConfig.GetVehicleConfig(snowmobile);
+            if (vehicleConfig == null || vehicleConfig.ContainerPresets == null)
+                return;
+
+            var reskinEvent = _reskinEventManager.GetEvent()
+                .WithParent(snowmobile)
+                .WithVehicleConfig(vehicleConfig);
+
+            for (var i = snowmobile.children.Count - 1; i >= 0; i--)
+            {
+                var container = snowmobile.children[i] as StorageContainer;
+                if (container == null || container.IsDestroyed)
+                    continue;
+
+                if (!vehicleConfig.ContainerPresets.ContainsKey(container.name))
+                    continue;
+
+                reskinEvent.AddContainer(container);
+
+                // Unparent the container to prevent it from being destroyed.
+                // It will later be parented to the newly spawned entity.
+                container.SetParent(null);
+            }
+
+            if (reskinEvent.Containers.Count == 0)
+            {
+                _reskinEventManager.CancelEvent(reskinEvent);
+            }
+            else
+            {
+                _reskinEventManager.RecordEvent(reskinEvent);
+
+                // In case another plugin blocks the pre-hook, reparent or kill the containers.
+                NextTick(_reskinEventManager.CleanupAction);
+            }
+        }
+
+        private void OnEntityReskinned(Snowmobile snowmobile, ItemSkinDirectory.Skin skin, BasePlayer player)
+        {
+            var transform = snowmobile.transform;
+            var reskinEvent = _reskinEventManager.FindEvent(transform.position);
+            if (reskinEvent == null)
+                return;
+
+            var newVehicleConfig = _pluginConfig.GetVehicleConfig(snowmobile);
+            if (newVehicleConfig == null || newVehicleConfig.ContainerPresets == null)
+            {
+                // New vehicle has no container presets, so kill the containers.
+                foreach (var container in reskinEvent.Containers)
+                {
+                    var oldContainerPreset = reskinEvent.VehicleConfig.FindContainerPreset(container.name);
+                    var dropPosition = oldContainerPreset != null ? transform.TransformPoint(oldContainerPreset.Position) : Vector3.zero;
+                    var dropRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+
+                    DropItems(container, dropPosition, dropRotation);
+                    container.Kill();
+                }
+
+                return;
+            }
+
+            foreach (var container in reskinEvent.Containers)
+            {
+                var containerName = container.name;
+                var newContainerPreset = newVehicleConfig.FindContainerPreset(containerName);
+                if (newContainerPreset == null || container.PrefabName != newContainerPreset.Prefab)
+                {
+                    // Container does not belong on the new vehicle, so remove it.
+                    var oldContainerPreset = reskinEvent.VehicleConfig.FindContainerPreset(containerName);
+                    var dropPosition = oldContainerPreset != null ? transform.TransformPoint(oldContainerPreset.Position) : Vector3.zero;
+                    var dropRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+
+                    DropItems(container, dropPosition, dropRotation);
+                    container.Kill();
+                    continue;
+                }
+
+                newContainerPreset.MoveContainerToParent(container, snowmobile);
+            }
+
+            _reskinEventManager.CompleteEvent(reskinEvent);
         }
 
         // Compatibility with plugin: Claim Vehicle Ownership
@@ -196,6 +284,24 @@ namespace Oxide.Plugins
 
         #region Helper Methods
 
+        private static void DropItems(StorageContainer container, Vector3 position, Quaternion rotation = new Quaternion())
+        {
+            var inventory = container.inventory;
+            var itemCount = inventory.itemList.Count;
+
+            if (itemCount == 0)
+                return;
+
+            if (container.ShouldDropItemsIndividually() || itemCount == 1)
+            {
+                DropUtil.DropItems(inventory, position);
+                return;
+            }
+
+            var prefab = container.DropFloats ? ItemDropBuoyantPrefab : ItemDropPrefab;
+            inventory.Drop(prefab, position, rotation);
+        }
+
         private void RemoveProblemComponents(BaseEntity entity)
         {
             foreach (var meshCollider in entity.GetComponentsInChildren<MeshCollider>())
@@ -207,6 +313,7 @@ namespace Oxide.Plugins
 
         private void SetupStorage(StorageContainer container, ContainerPreset preset)
         {
+            container.name = preset.Name;
             container.pickup.enabled = false;
             container.dropsLoot = true;
             RemoveProblemComponents(container);
@@ -348,7 +455,7 @@ namespace Oxide.Plugins
 
         private void HandlePermissionChanged(string userIdString = "")
         {
-            foreach (var entry in _allSupportedVehicles)
+            foreach (var entry in _vehicleTracker.AllSupportedVehicles)
             {
                 var vehicleConfig = entry.Key;
                 var vehicleList = entry.Value;
@@ -370,6 +477,179 @@ namespace Oxide.Plugins
 
                     RefreshVehicleStorage(vehicle, vehicleConfig);
                 }
+            }
+        }
+
+        #endregion
+
+        #region Supported Vehicle Tracker
+
+        private class VehicleTracker
+        {
+            public readonly Dictionary<VehicleConfig, HashSet<BaseEntity>> AllSupportedVehicles = new Dictionary<VehicleConfig, HashSet<BaseEntity>>();
+
+            public HashSet<BaseEntity> GetVehicles(VehicleConfig vehicleConfig)
+            {
+                HashSet<BaseEntity> vehicles;
+                return AllSupportedVehicles.TryGetValue(vehicleConfig, out vehicles)
+                    ? vehicles
+                    : null;
+            }
+
+            public void AddVehicle(VehicleConfig vehicleConfig, BaseEntity vehicle)
+            {
+                var vehicles = GetVehicles(vehicleConfig);
+                if (vehicles == null)
+                {
+                    vehicles = new HashSet<BaseEntity>();
+                    AllSupportedVehicles[vehicleConfig] = vehicles;
+                }
+
+                vehicles.Add(vehicle);
+            }
+
+            public bool RemoveVehicle(VehicleConfig vehicleConfig, BaseEntity vehicle)
+            {
+                return GetVehicles(vehicleConfig)?.Remove(vehicle) ?? false;
+            }
+        }
+
+        #endregion
+
+        #region Reskin Manager
+
+        private class ReskinEvent
+        {
+            public BaseEntity Parent;
+            public VehicleConfig VehicleConfig;
+            public List<StorageContainer> Containers = new List<StorageContainer>();
+            public Vector3 Position;
+
+            public bool IsAvailable() => Parent != null && !Parent.IsDestroyed;
+
+            public ReskinEvent WithParent(BaseEntity parent)
+            {
+                Parent = parent;
+                Position = parent?.transform.position ?? Vector3.zero;
+                return this;
+            }
+
+            public ReskinEvent WithVehicleConfig(VehicleConfig vehicleConfig)
+            {
+                VehicleConfig = vehicleConfig;
+                return this;
+            }
+
+            public ReskinEvent AddContainer(StorageContainer container)
+            {
+                Containers.Add(container);
+                return this;
+            }
+
+            public void Reset()
+            {
+                Parent = null;
+                Position = Vector3.zero;
+                Containers.Clear();
+            }
+        }
+
+        private class ReskinEventManager
+        {
+            private VehicleTracker _vehicleTracker;
+
+            // Pool only a single reskin event since usually there will be at most a single event per frame.
+            private ReskinEvent _pooledReskinEvent;
+
+            // Keep track of all reskin events happening in a frame, in case there are multiple.
+            private List<ReskinEvent> _reskinEvents = new List<ReskinEvent>();
+
+            public readonly Action CleanupAction;
+
+            public ReskinEventManager(VehicleTracker vehicleTracker)
+            {
+                CleanupAction = CleanupEvents;
+                _vehicleTracker = vehicleTracker;
+            }
+
+            public ReskinEvent GetEvent()
+            {
+                if (_pooledReskinEvent == null)
+                {
+                    _pooledReskinEvent = new ReskinEvent();
+                }
+
+                return ReferenceEquals(_pooledReskinEvent.Parent, null)
+                    ? _pooledReskinEvent
+                    : new ReskinEvent();
+            }
+
+            public void RecordEvent(ReskinEvent reskinEvent)
+            {
+                _reskinEvents.Add(reskinEvent);
+            }
+
+            public void CancelEvent(ReskinEvent reskinEvent)
+            {
+                reskinEvent.Reset();
+            }
+
+            public ReskinEvent FindEvent(Vector3 position)
+            {
+                foreach (var reskinEvent in _reskinEvents)
+                {
+                    if (reskinEvent.Position == position)
+                        return reskinEvent;
+                }
+
+                return null;
+            }
+
+            public void CompleteEvent(ReskinEvent reskinEvent)
+            {
+                reskinEvent.Reset();
+                _reskinEvents.Remove(reskinEvent);
+            }
+
+            private void CleanupEvents()
+            {
+                if (_reskinEvents.Count == 0)
+                    return;
+
+                foreach (var reskinEvent in _reskinEvents)
+                {
+                    if (reskinEvent.Parent == null || reskinEvent.Parent.IsDestroyed)
+                    {
+                        // The post event wasn't called, and the original parent is gone, so kill the containers.
+                        foreach (var container in reskinEvent.Containers)
+                        {
+                            if (container == null || container.IsDestroyed)
+                                continue;
+
+                            DropItems(container, reskinEvent.Position + Vector3.up);
+                            container.Kill();
+                        }
+
+                        continue;
+                    }
+
+                    // The reskin event must have been blocked, so reparent the containers to the original parent.
+                    foreach (var container in reskinEvent.Containers)
+                    {
+                        var containerPreset = reskinEvent.VehicleConfig.FindContainerPreset(container.name);
+                        if (containerPreset != null)
+                        {
+                            containerPreset.MoveContainerToParent(container, reskinEvent.Parent);
+                        }
+                        else
+                        {
+                            container.SetParent(reskinEvent.Parent);
+                        }
+                    }
+                }
+
+                _pooledReskinEvent.Reset();
+                _reskinEvents.Clear();
             }
         }
 
@@ -408,6 +688,16 @@ namespace Oxide.Plugins
 
             [JsonIgnore]
             public string Name;
+
+            public void MoveContainerToParent(StorageContainer container, BaseEntity parent)
+            {
+                var transform = container.transform;
+                transform.localPosition = Position;
+                transform.localRotation = Rotation;
+
+                container.SetParent(parent, ParentBone);
+                container.SendNetworkUpdate_Position();
+            }
         }
 
         private class VehicleProfile
@@ -473,7 +763,7 @@ namespace Oxide.Plugins
             [JsonProperty("ProfilesRequiringPermission")]
             public VehicleProfile[] ProfilesRequiringPermission;
 
-            [JsonProperty("ContainerPresets", DefaultValueHandling = DefaultValueHandling.Ignore)]
+            [JsonProperty("ContainerPresets", DefaultValueHandling = DefaultValueHandling.Ignore, ObjectCreationHandling = ObjectCreationHandling.Replace)]
             public Dictionary<string, ContainerPreset> ContainerPresets;
 
             [JsonIgnore]
@@ -513,6 +803,14 @@ namespace Oxide.Plugins
                 }
 
                 return DefaultProfile;
+            }
+
+            public ContainerPreset FindContainerPreset(string name)
+            {
+                ContainerPreset preset;
+                return ContainerPresets.TryGetValue(name, out preset)
+                    ? preset
+                    : null;
             }
         }
 
