@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.2.1")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.2.2")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -862,7 +862,7 @@ namespace Oxide.Plugins
                 (entity as VehicleModuleStorage)?.GetContainer() as StorageContainer;
 
             public override ulong GetOwnerId(BaseEntity entity) =>
-                (entity as VehicleModuleStorage)?.Vehicle.OwnerID ?? 0;
+                (entity as VehicleModuleStorage)?.Vehicle?.OwnerID ?? 0;
         }
 
         private class ModularCarCamperModuleConfig : VehicleConfig
@@ -874,7 +874,7 @@ namespace Oxide.Plugins
                 (entity as VehicleModuleCamper)?.activeStorage.Get(serverside: true);
 
             public override ulong GetOwnerId(BaseEntity entity) =>
-                (entity as VehicleModuleCamper)?.Vehicle.OwnerID ?? 0;
+                (entity as VehicleModuleCamper)?.Vehicle?.OwnerID ?? 0;
         }
 
         private class RHIBConfig : RowboatConfig
