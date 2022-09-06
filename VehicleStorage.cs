@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.2.2")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.3.0")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -841,6 +841,12 @@ namespace Oxide.Plugins
             public override string PrefabPath => "assets/content/vehicles/boats/kayak/kayak.prefab";
         }
 
+        private class LocomotiveConfig : VehicleConfig
+        {
+            public override string VehicleType => "locomotive";
+            public override string PrefabPath => "assets/content/vehicles/locomotive/locomotive.entity.prefab";
+        }
+
         private class MagnetCraneConfig : VehicleConfig
         {
             public override string VehicleType => "magnetcrane";
@@ -910,6 +916,12 @@ namespace Oxide.Plugins
             public override string PrefabPath => "assets/content/vehicles/sedan_a/sedantest.entity.prefab";
         }
 
+        private class SedanRailConfig : VehicleConfig
+        {
+            public override string VehicleType => "sedanrail";
+            public override string PrefabPath => "assets/content/vehicles/sedan_a/sedanrail.entity.prefab";
+        }
+
         private class SnowmobileConfig : VehicleConfig
         {
             public override string VehicleType => "snowmobile";
@@ -937,10 +949,40 @@ namespace Oxide.Plugins
                 (entity as Snowmobile)?.GetItemContainer();
         }
 
+        private class WagonAConfig : VehicleConfig
+        {
+            public override string VehicleType => "wagona";
+            public override string PrefabPath => "assets/content/vehicles/train/trainwagona.entity.prefab";
+        }
+
+        private class WagonBConfig : VehicleConfig
+        {
+            public override string VehicleType => "wagonb";
+            public override string PrefabPath => "assets/content/vehicles/train/trainwagonb.entity.prefab";
+        }
+
+        private class WagonCConfig : VehicleConfig
+        {
+            public override string VehicleType => "wagonc";
+            public override string PrefabPath => "assets/content/vehicles/train/trainwagonc.entity.prefab";
+        }
+
         private class WorkcartConfig : VehicleConfig
         {
             public override string VehicleType => "workcart";
             public override string PrefabPath => "assets/content/vehicles/workcart/workcart.entity.prefab";
+        }
+
+        private class WorkcartAbovegroundConfig : VehicleConfig
+        {
+            public override string VehicleType => "workcartaboveground";
+            public override string PrefabPath => "assets/content/vehicles/workcart/workcart_aboveground.entity.prefab";
+        }
+
+        private class WorkcartCoveredConfig : VehicleConfig
+        {
+            public override string VehicleType => "workcartcovered";
+            public override string PrefabPath => "assets/content/vehicles/workcart/workcart_aboveground2.entity.prefab";
         }
 
         private class Configuration : SerializableConfiguration
@@ -1221,6 +1263,35 @@ namespace Oxide.Plugins
                         Prefab = HabStoragePrefab,
                         Position = new Vector3(0.17f, 0.23f, -1.18f),
                         RotationAngles = new Vector3(270, 180, 0),
+                    },
+                },
+            };
+
+            [JsonProperty("Locomotive")]
+            public LocomotiveConfig Locomotive = new LocomotiveConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1stash",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Stash"] = MaxCapacity,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Front Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(-0.43f, 2.89f, 5.69f),
+                        RotationAngles = new Vector3(0, 180, 0),
                     },
                 },
             };
@@ -1673,6 +1744,35 @@ namespace Oxide.Plugins
                 },
             };
 
+            [JsonProperty("SedanRail")]
+            public SedanRailConfig SedanRail = new SedanRailConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1stash",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Middle Stash"] = MaxCapacity,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Middle Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0, 1.065f, -0.21f),
+                        RotationAngles = new Vector3(270, 180, 0),
+                    },
+                },
+            };
+
             [JsonProperty("Snowmobile")]
             public SnowmobileConfig Snowmobile = new SnowmobileConfig
             {
@@ -1865,6 +1965,183 @@ namespace Oxide.Plugins
                 },
             };
 
+            [JsonProperty("WagonA")]
+            public WagonAConfig WagonA = new WagonAConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2boxes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Left Box"] = MaxCapacity,
+                            ["Front Right Box"] = MaxCapacity,
+                        },
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "4boxes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Left Box"] = MaxCapacity,
+                            ["Front Right Box"] = MaxCapacity,
+                            ["Back Left Box"] = MaxCapacity,
+                            ["Back Right Box"] = MaxCapacity,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Front Left Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(-1.1f, 1.55f, 1.545f),
+                        RotationAngles = new Vector3(0, 90, 0),
+                    },
+                    ["Front Right Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(1.10f, 1.55f, 1.545f),
+                        RotationAngles = new Vector3(0, 270, 0),
+                    },
+                    ["Back Left Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(-1.1f, 1.55f, -0.5f),
+                        RotationAngles = new Vector3(0, 90, 0),
+                    },
+                    ["Back Right Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(1.10f, 1.55f, -0.5f),
+                        RotationAngles = new Vector3(0, 270, 0),
+                    },
+                },
+            };
+
+            [JsonProperty("WagonB")]
+            public WagonBConfig WagonB = new WagonBConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2boxes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Left Box"] = MaxCapacity,
+                            ["Front Right Box"] = MaxCapacity,
+                        },
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "4boxes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Left Box"] = MaxCapacity,
+                            ["Front Right Box"] = MaxCapacity,
+                            ["Back Left Box"] = MaxCapacity,
+                            ["Back Right Box"] = MaxCapacity,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Front Left Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(-1.1f, 1.55f, 1.545f),
+                        RotationAngles = new Vector3(0, 90, 0),
+                    },
+                    ["Front Right Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(1.10f, 1.55f, 1.545f),
+                        RotationAngles = new Vector3(0, 270, 0),
+                    },
+                    ["Back Left Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(-1.1f, 1.55f, -0.5f),
+                        RotationAngles = new Vector3(0, 90, 0),
+                    },
+                    ["Back Right Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(1.10f, 1.55f, -0.5f),
+                        RotationAngles = new Vector3(0, 270, 0),
+                    },
+                },
+            };
+
+            [JsonProperty("WagonC")]
+            public WagonCConfig WagonC = new WagonCConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2boxes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Middle Box 1"] = MaxCapacity,
+                            ["Middle Box 2"] = MaxCapacity,
+                        },
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "4boxes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Middle Box 1"] = MaxCapacity,
+                            ["Middle Box 2"] = MaxCapacity,
+                            ["Middle Box 3"] = MaxCapacity,
+                            ["Middle Box 4"] = MaxCapacity,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Middle Box 1"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0f, 1.51f, 1.5f),
+                        RotationAngles = new Vector3(0, 90, 0),
+                    },
+                    ["Middle Box 2"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0f, 1.51f, 0.5f),
+                        RotationAngles = new Vector3(0, 270, 0),
+                    },
+                    ["Middle Box 3"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0f, 1.51f, -0.5f),
+                        RotationAngles = new Vector3(0, 90, 0),
+                    },
+                    ["Middle Box 4"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0f, 1.51f, -1.5f),
+                        RotationAngles = new Vector3(0, 270, 0),
+                    },
+                },
+            };
+
             [JsonProperty("Workcart")]
             public WorkcartConfig Workcart = new WorkcartConfig
             {
@@ -1897,13 +2174,101 @@ namespace Oxide.Plugins
                     ["Front Box"] = new ContainerPreset
                     {
                         Prefab = RhibStoragePrefab,
-                        Position = new Vector3(0.85f, 2.63f, 1.43f),
+                        Position = new Vector3(0.85f, 2.595f, 1.43f),
                         RotationAngles = new Vector3(0, 180, 0),
                     },
                     ["Back Box"] = new ContainerPreset
                     {
                         Prefab = RhibStoragePrefab,
-                        Position = new Vector3(0.85f, 2.63f, 0.7f),
+                        Position = new Vector3(0.85f, 2.595f, 0.7f),
+                        RotationAngles = new Vector3(0, 180, 0),
+                    },
+                },
+            };
+
+            [JsonProperty("WorkcartAboveground")]
+            public WorkcartAbovegroundConfig WorkcartAboveground = new WorkcartAbovegroundConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1box",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Box"] = MaxCapacity,
+                        },
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2boxes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Box"] = MaxCapacity,
+                            ["Back Box"] = MaxCapacity,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Front Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0.85f, 2.595f, 1.43f),
+                        RotationAngles = new Vector3(0, 180, 0),
+                    },
+                    ["Back Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0.85f, 2.595f, 0.7f),
+                        RotationAngles = new Vector3(0, 180, 0),
+                    },
+                },
+            };
+
+            [JsonProperty("WorkcartCovered")]
+            public WorkcartCoveredConfig WorkcartCovered = new WorkcartCoveredConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new VehicleProfile[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1box",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Box"] = MaxCapacity,
+                        },
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2boxes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Box"] = MaxCapacity,
+                            ["Back Box"] = MaxCapacity,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Front Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0.85f, 2.595f, 1f),
+                        RotationAngles = new Vector3(0, 180, 0),
+                    },
+                    ["Back Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0.85f, 2.595f, 0.27f),
                         RotationAngles = new Vector3(0, 180, 0),
                     },
                 },
@@ -1920,6 +2285,7 @@ namespace Oxide.Plugins
                     DuoSubmarine,
                     HotAirBalloon,
                     Kayak,
+                    Locomotive,
                     MagnetCrane,
                     Minicopter,
                     ModularCarCamperModule,
@@ -1929,10 +2295,16 @@ namespace Oxide.Plugins
                     Rowboat,
                     ScrapTransportHelicopter,
                     Sedan,
+                    SedanRail,
                     Snowmobile,
                     SoloSubmarine,
                     Tomaha,
+                    WagonA,
+                    WagonB,
+                    WagonC,
                     Workcart,
+                    WorkcartAboveground,
+                    WorkcartCovered,
                 };
 
                 foreach (var vehicleConfig in allVehicleConfigs)

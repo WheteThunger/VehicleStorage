@@ -30,12 +30,12 @@ The following permissions come with this plugin's **default configuration**. You
 
 ### Ground vehicles
 
-#### Ridable horse
+#### Ridable Horse
 
 - `vehiclestorage.ridablehorse.1stash` -- 1 x 42-slot stash (42 total capacity)
 - `vehiclestorage.ridablehorse.2stashes` -- 2 x 42-slot stash (84 total capacity)
 
-#### Modular car camper module
+#### Modular Car camper module
 
 - `vehiclestorage.modularcarcamper.3rows` -- 3 rows (18 total capacity)
 - `vehiclestorage.modularcarcamper.4rows` -- 4 rows (24 total capacity)
@@ -44,7 +44,7 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.modularcarcamper.7rows` -- 7 rows (42 total capacity)
 - `vehiclestorage.modularcarcamper.8rows` -- 8 rows (48 total capacity)
 
-#### Modular car storage module
+#### Modular Car storage module
 
 - `vehiclestorage.modularcarstorage.4rows` -- 4 rows (24 total capacity)
 - `vehiclestorage.modularcarstorage.5rows` -- 5 rows (30 total capacity)
@@ -62,7 +62,7 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.snowmobile.8rows` -- 8 rows (48 total capacity)
 - `vehiclestorage.snowmobile.2stashes` -- 8 rows + 2 x 48-slot stash (144 total capacity)
 
-#### Tomaha snowmobile
+#### Tomaha Snowmobile
 
 - `vehiclestorage.tomaha.3rows` -- 3 rows (18 total capacity)
 - `vehiclestorage.tomaha.4rows` -- 4 rows (24 total capacity)
@@ -72,18 +72,53 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.tomaha.8rows` -- 8 rows (48 total capacity)
 - `vehiclestorage.tomaha.2stashes` -- 8 rows + 2 x 48-slot stash (144 total capacity)
 
+#### Sedan
+
+- `vehiclestorage.sedan.1stash` -- 1 x 48-slot stash (48 total capacity)
+
+#### Magnet Crane
+
+- `vehiclestorage.magnetcrane.1stash` -- 1 x 48-slot stash (48 total capacity)
+
+### Train cars
+
 #### Workcart
 
 - `vehiclestorage.workcart.1box` -- 1 x 48-slot box (48 total capacity)
 - `vehiclestorage.workcart.2boxes` -- 2 x 48-slot box (96 total capacity)
 
-#### Sedan
+#### Aboveground Workcart
 
-- `vehiclestorage.sedan.1stash` -- 1 x 48-slot stash (48 total capacity)
+- `vehiclestorage.workcartaboveground.1box` -- 1 x 48-slot box (48 total capacity)
+- `vehiclestorage.workcartaboveground.2boxes` -- 2 x 48-slot box (96 total capacity)
 
-#### MagnetCrane
+#### Covered Workcart
 
-- `vehiclestorage.magnetcrane.1stash` -- 1 x 48-slot stash (48 total capacity)
+- `vehiclestorage.workcartcovered.1box` -- 1 x 48-slot box (48 total capacity)
+- `vehiclestorage.workcartcovered.2boxes` -- 2 x 48-slot box (96 total capacity)
+
+#### Locomotive
+
+- `vehiclestorage.locomotive.1stash` -- 1 x 48-slot stash (48 total capacity)
+
+#### Sedan Rail
+
+- `vehiclestorage.sedanrail.1stash` -- 1 x 48-slot stash (48 total capacity)
+
+#### Wagon A
+
+- `vehiclestorage.wagona.2boxes` -- 2 x 48-slot box (96 total capacity)
+- `vehiclestorage.wagona.4boxes` -- 4 x 48-slot box (192 total capacity)
+
+#### Wagon B
+
+- `vehiclestorage.wagonb.2boxes` -- 2 x 48-slot box (96 total capacity)
+- `vehiclestorage.wagonb.4boxes` -- 4 x 48-slot box (192 total capacity)
+
+#### Wagon C
+
+- `vehiclestorage.wagonc.2boxes` -- 2 x 48-slot box (96 total capacity)
+- `vehiclestorage.wagonc.4boxes` -- 4 x 48-slot box (192 total capacity)
 
 ### Boats
 
@@ -109,7 +144,7 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.rhib.8rows` -- 8 rows (48 total capacity)
 - `vehiclestorage.rhib.3boxes` -- 8 rows + 2 x 48-slot box (144 total capacity)
 
-#### SoloSubmarine
+#### Solo Submarine
 
 - `vehiclestorage.solosub.4rows` -- 4 rows (24 total capacity)
 - `vehiclestorage.solosub.5rows` -- 5 rows (30 total capacity)
@@ -118,7 +153,7 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.solosub.8rows` -- 8 rows (48 total capacity)
 - `vehiclestorage.solosub.1stash` -- 8 rows + 1 x 48-slot stash (96 total capacity)
 
-#### Duo submarine
+#### Duo Submarine
 
 - `vehiclestorage.duosub.3rows` -- 3 rows (18 total capacity)
 - `vehiclestorage.duosub.4rows` -- 4 rows (24 total capacity)
@@ -131,7 +166,7 @@ The following permissions come with this plugin's **default configuration**. You
 
 ### Aircrafts
 
-#### Hot air balloon
+#### Hot Air Balloon
 
 - `vehiclestorage.hotairballoon.3rows` -- 3 rows (18 total capacity)
 - `vehiclestorage.hotairballoon.4rows` -- 4 rows (24 total capacity)
@@ -150,7 +185,7 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.minicopter.3stashes` -- 3 x 48-slot stash (144 total capacity)
 - `vehiclestorage.minicopter.4stashes` -- 4 x 48-slot stash (192 total capacity)
 
-#### ScrapTransportHelicopter
+#### Scrap Transport Helicopter
 
 - `vehiclestorage.scraptransport.1box` -- 1 x 48-slot box (48 total capacity)
 - `vehiclestorage.scraptransport.2boxes` -- 2 x 48-slot box (96 total capacity)
@@ -158,7 +193,7 @@ The following permissions come with this plugin's **default configuration**. You
 #### Chinook
 
 - `vehiclestorage.chinook.2boxes` -- 2 x 48-slot box (96 total capacity)
-- `vehiclestorage.chinook.2boxes` -- 4 x 48-slot box (192 total capacity)
+- `vehiclestorage.chinook.4boxes` -- 4 x 48-slot box (192 total capacity)
 
 ## Configuration
 
@@ -470,6 +505,34 @@ Default configuration:
         },
         "RotationAngles": {
           "x": 270.0,
+          "y": 180.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
+  "Locomotive": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1stash",
+        "AdditionalStorage": {
+          "Front Stash": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Front Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": -0.43,
+          "y": 2.89,
+          "z": 5.69
+        },
+        "RotationAngles": {
+          "x": 0.0,
           "y": 180.0,
           "z": 0.0
         }
@@ -945,6 +1008,34 @@ Default configuration:
       }
     }
   },
+  "SedanRail": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1stash",
+        "AdditionalStorage": {
+          "Middle Stash": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Middle Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.0,
+          "y": 1.065,
+          "z": -0.21
+        },
+        "RotationAngles": {
+          "x": 270.0,
+          "y": 180.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
   "Snowmobile": {
     "DefaultProfile": {
       "BuiltInStorageCapacity": 12,
@@ -1131,6 +1222,237 @@ Default configuration:
       }
     }
   },
+  "WagonA": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "2boxes",
+        "AdditionalStorage": {
+          "Front Left Box": 48,
+          "Front Right Box": 48
+        }
+      },
+      {
+        "PermissionSuffix": "4boxes",
+        "AdditionalStorage": {
+          "Front Left Box": 48,
+          "Front Right Box": 48,
+          "Back Left Box": 48,
+          "Back Right Box": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Front Left Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": -1.1,
+          "y": 1.55,
+          "z": 1.545
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      },
+      "Front Right Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 1.1,
+          "y": 1.55,
+          "z": 1.545
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
+        }
+      },
+      "Back Left Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": -1.1,
+          "y": 1.55,
+          "z": -0.5
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      },
+      "Back Right Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 1.1,
+          "y": 1.55,
+          "z": -0.5
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
+  "WagonB": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "2boxes",
+        "AdditionalStorage": {
+          "Front Left Box": 48,
+          "Front Right Box": 48
+        }
+      },
+      {
+        "PermissionSuffix": "4boxes",
+        "AdditionalStorage": {
+          "Front Left Box": 48,
+          "Front Right Box": 48,
+          "Back Left Box": 48,
+          "Back Right Box": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Front Left Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": -1.1,
+          "y": 1.55,
+          "z": 1.545
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      },
+      "Front Right Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 1.1,
+          "y": 1.55,
+          "z": 1.545
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
+        }
+      },
+      "Back Left Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": -1.1,
+          "y": 1.55,
+          "z": -0.5
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      },
+      "Back Right Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 1.1,
+          "y": 1.55,
+          "z": -0.5
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
+  "WagonC": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "2boxes",
+        "AdditionalStorage": {
+          "Middle Box 1": 48,
+          "Middle Box 2": 48
+        }
+      },
+      {
+        "PermissionSuffix": "4boxes",
+        "AdditionalStorage": {
+          "Middle Box 1": 48,
+          "Middle Box 2": 48,
+          "Middle Box 3": 48,
+          "Middle Box 4": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Middle Box 1": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.0,
+          "y": 1.51,
+          "z": 1.5
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      },
+      "Middle Box 2": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.0,
+          "y": 1.51,
+          "z": 0.5
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
+        }
+      },
+      "Middle Box 3": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.0,
+          "y": 1.51,
+          "z": -0.5
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      },
+      "Middle Box 4": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.0,
+          "y": 1.51,
+          "z": -1.5
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
   "Workcart": {
     "DefaultProfile": {
       "AdditionalStorage": {}
@@ -1155,7 +1477,7 @@ Default configuration:
         "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
         "Position": {
           "x": 0.85,
-          "y": 2.63,
+          "y": 2.595,
           "z": 1.43
         },
         "RotationAngles": {
@@ -1168,8 +1490,104 @@ Default configuration:
         "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
         "Position": {
           "x": 0.85,
-          "y": 2.63,
+          "y": 2.595,
           "z": 0.7
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 180.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
+  "WorkcartAboveground": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1box",
+        "AdditionalStorage": {
+          "Front Box": 48
+        }
+      },
+      {
+        "PermissionSuffix": "2boxes",
+        "AdditionalStorage": {
+          "Front Box": 48,
+          "Back Box": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Front Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.85,
+          "y": 2.595,
+          "z": 1.43
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 180.0,
+          "z": 0.0
+        }
+      },
+      "Back Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.85,
+          "y": 2.595,
+          "z": 0.7
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 180.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
+  "WorkcartCovered": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1box",
+        "AdditionalStorage": {
+          "Front Box": 48
+        }
+      },
+      {
+        "PermissionSuffix": "2boxes",
+        "AdditionalStorage": {
+          "Front Box": 48,
+          "Back Box": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Front Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.85,
+          "y": 2.595,
+          "z": 1.0
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 180.0,
+          "z": 0.0
+        }
+      },
+      "Back Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.85,
+          "y": 2.595,
+          "z": 0.27
         },
         "RotationAngles": {
           "x": 0.0,
