@@ -42,6 +42,7 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.modularcarcamper.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.modularcarcamper.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.modularcarcamper.7rows` -- 7 rows (42 total capacity)
+- `vehiclestorage.modularcarcamper.8rows` -- 8 rows (48 total capacity)
 
 #### Modular car storage module
 
@@ -49,6 +50,7 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.modularcarstorage.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.modularcarstorage.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.modularcarstorage.7rows` -- 7 rows (42 total capacity)
+- `vehiclestorage.modularcarstorage.8rows` -- 8 rows (48 total capacity)
 
 #### Snowmobile
 
@@ -57,7 +59,8 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.snowmobile.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.snowmobile.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.snowmobile.7rows` -- 7 rows (42 total capacity)
-- `vehiclestorage.snowmobile.2stashes` -- 7 rows + 2 x 42-slot stash (126 total capacity)
+- `vehiclestorage.snowmobile.8rows` -- 8 rows (48 total capacity)
+- `vehiclestorage.snowmobile.2stashes` -- 8 rows + 2 x 48-slot stash (144 total capacity)
 
 #### Tomaha snowmobile
 
@@ -66,27 +69,28 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.tomaha.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.tomaha.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.tomaha.7rows` -- 7 rows (42 total capacity)
-- `vehiclestorage.tomaha.2stashes` -- 7 rows + 2 x 42-slot stash (126 total capacity)
+- `vehiclestorage.tomaha.8rows` -- 8 rows (48 total capacity)
+- `vehiclestorage.tomaha.2stashes` -- 8 rows + 2 x 48-slot stash (144 total capacity)
 
 #### Workcart
 
-- `vehiclestorage.workcart.1box` -- 1 x 42-slot box (42 total capacity)
-- `vehiclestorage.workcart.2boxes` -- 2 x 42-slot box (84 total capacity)
+- `vehiclestorage.workcart.1box` -- 1 x 48-slot box (48 total capacity)
+- `vehiclestorage.workcart.2boxes` -- 2 x 48-slot box (96 total capacity)
 
 #### Sedan
 
-- `vehiclestorage.sedan.1stash` -- 1 x 42-slot stash (42 total capacity)
+- `vehiclestorage.sedan.1stash` -- 1 x 48-slot stash (48 total capacity)
 
 #### MagnetCrane
 
-- `vehiclestorage.magnetcrane.1stash` -- 1 x 42-slot stash (42 total capacity)
+- `vehiclestorage.magnetcrane.1stash` -- 1 x 48-slot stash (48 total capacity)
 
 ### Boats
 
 #### Kayak
 
-- `vehiclestorage.kayak.1stash` -- 1 x 42-slot stash (42 total capacity)
-- `vehiclestorage.kayak.2stashes` -- 2 x 42-slot stash (84 total capacity)
+- `vehiclestorage.kayak.1stash` -- 1 x 48-slot stash (48 total capacity)
+- `vehiclestorage.kayak.2stashes` -- 2 x 48-slot stash (96 total capacity)
 
 #### Rowboat
 
@@ -95,13 +99,15 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.rowboat.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.rowboat.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.rowboat.7rows` -- 7 rows (42 total capacity)
-- `vehiclestorage.rowboat.2stashes` -- 7 rows + 1 x 42-slot stash (84 total capacity)
+- `vehiclestorage.rowboat.8rows` -- 8 rows (48 total capacity)
+- `vehiclestorage.rowboat.2stashes` -- 8 rows + 1 x 48-slot stash (96 total capacity)
 
 #### RHIB
 
 - `vehiclestorage.rhib.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.rhib.7rows` -- 7 rows (42 total capacity)
-- `vehiclestorage.rhib.3boxes` -- 7 rows + 2 x 42-slot box (126 total capacity)
+- `vehiclestorage.rhib.8rows` -- 8 rows (48 total capacity)
+- `vehiclestorage.rhib.3boxes` -- 8 rows + 2 x 48-slot box (144 total capacity)
 
 #### SoloSubmarine
 
@@ -109,7 +115,8 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.solosub.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.solosub.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.solosub.7rows` -- 7 rows (42 total capacity)
-- `vehiclestorage.solosub.1stash` -- 7 rows + 1 x 42-slot stash (84 total capacity)
+- `vehiclestorage.solosub.8rows` -- 8 rows (48 total capacity)
+- `vehiclestorage.solosub.1stash` -- 8 rows + 1 x 48-slot stash (96 total capacity)
 
 #### Duo submarine
 
@@ -118,8 +125,9 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.duosub.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.duosub.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.duosub.7rows` -- 7 rows (42 total capacity)
-- `vehiclestorage.duosub.1stash` -- 7 rows + 1 x 42-slot stash (84 total capacity)
-- `vehiclestorage.duosub.2stashes` -- 7 rows + 2 x 42-slot stash (126 total capacity)
+- `vehiclestorage.duosub.8rows` -- 8 rows (48 total capacity)
+- `vehiclestorage.duosub.1stash` -- 8 rows + 1 x 48-slot stash (96 total capacity)
+- `vehiclestorage.duosub.2stashes` -- 8 rows + 2 x 48-slot stash (144 total capacity)
 
 ### Aircrafts
 
@@ -130,26 +138,27 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.hotairballoon.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.hotairballoon.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.hotairballoon.7rows` -- 7 rows (42 total capacity)
-- `vehiclestorage.hotairballoon.2stashes` -- 7 rows + 1 x 42-slot stash (84 total capacity)
-- `vehiclestorage.hotairballoon.3stashes` -- 7 rows + 2 x 42-slot stash (126 total capacity)
-- `vehiclestorage.hotairballoon.4stashes` -- 7 rows + 3 x 42-slot stash (168 total capacity)
+- `vehiclestorage.hotairballoon.8rows` -- 8 rows (48 total capacity)
+- `vehiclestorage.hotairballoon.2stashes` -- 8 rows + 1 x 48-slot stash (96 total capacity)
+- `vehiclestorage.hotairballoon.3stashes` -- 8 rows + 2 x 48-slot stash (144 total capacity)
+- `vehiclestorage.hotairballoon.4stashes` -- 8 rows + 3 x 48-slot stash (192 total capacity)
 
 #### Minicopter
 
-- `vehiclestorage.minicopter.1stash` -- 1 x 42-slot stash (42 total capacity)
-- `vehiclestorage.minicopter.2stashes` -- 2 x 42-slot stash (84 total capacity)
-- `vehiclestorage.minicopter.3stashes` -- 3 x 42-slot stash (126 total capacity)
-- `vehiclestorage.minicopter.4stashes` -- 4 x 42-slot stash (168 total capacity)
+- `vehiclestorage.minicopter.1stash` -- 1 x 48-slot stash (48 total capacity)
+- `vehiclestorage.minicopter.2stashes` -- 2 x 48-slot stash (96 total capacity)
+- `vehiclestorage.minicopter.3stashes` -- 3 x 48-slot stash (144 total capacity)
+- `vehiclestorage.minicopter.4stashes` -- 4 x 48-slot stash (192 total capacity)
 
 #### ScrapTransportHelicopter
 
-- `vehiclestorage.scraptransport.1box` -- 1 x 42-slot box (42 total capacity)
-- `vehiclestorage.scraptransport.2boxes` -- 2 x 42-slot box (84 total capacity)
+- `vehiclestorage.scraptransport.1box` -- 1 x 48-slot box (48 total capacity)
+- `vehiclestorage.scraptransport.2boxes` -- 2 x 48-slot box (96 total capacity)
 
 #### Chinook
 
-- `vehiclestorage.chinook.2boxes` -- 2 x 42-slot box (84 total capacity)
-- `vehiclestorage.chinook.2boxes` -- 4 x 42-slot box (168 total capacity)
+- `vehiclestorage.chinook.2boxes` -- 2 x 48-slot box (96 total capacity)
+- `vehiclestorage.chinook.2boxes` -- 4 x 48-slot box (192 total capacity)
 
 ## Configuration
 
@@ -165,17 +174,17 @@ Default configuration:
       {
         "PermissionSuffix": "2boxes",
         "AdditionalStorage": {
-          "Front Left Box": 42,
-          "Front Right Box": 42
+          "Front Left Box": 48,
+          "Front Right Box": 48
         }
       },
       {
         "PermissionSuffix": "4boxes",
         "AdditionalStorage": {
-          "Front Left Box": 42,
-          "Front Right Box": 42,
-          "Front Upper Left Box": 42,
-          "Front Upper Right Box": 42
+          "Front Left Box": 48,
+          "Front Right Box": 48,
+          "Front Upper Left Box": 48,
+          "Front Upper Right Box": 48
         }
       }
     ],
@@ -261,18 +270,22 @@ Default configuration:
         "BuiltInStorageCapacity": 42
       },
       {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
+      },
+      {
         "PermissionSuffix": "1stash",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Front Stash": 42
+          "Front Stash": 48
         }
       },
       {
         "PermissionSuffix": "2stashes",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Front Stash": 42,
-          "Back Stash": 42
+          "Front Stash": 48,
+          "Back Stash": 48
         }
       }
     ],
@@ -332,27 +345,31 @@ Default configuration:
         "BuiltInStorageCapacity": 42
       },
       {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
+      },
+      {
         "PermissionSuffix": "2stashes",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Front Left Stash": 42
+          "Front Left Stash": 48
         }
       },
       {
         "PermissionSuffix": "3stashes",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Front Left Stash": 42,
-          "Front Right Stash": 42
+          "Front Left Stash": 48,
+          "Front Right Stash": 48
         }
       },
       {
         "PermissionSuffix": "4stashes",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Front Left Stash": 42,
-          "Front Right Stash": 42,
-          "Back Right Stash": 42
+          "Front Left Stash": 48,
+          "Front Right Stash": 48,
+          "Back Right Stash": 48
         }
       }
     ],
@@ -406,14 +423,14 @@ Default configuration:
       {
         "PermissionSuffix": "1stash",
         "AdditionalStorage": {
-          "Back Middle Stash": 42
+          "Back Middle Stash": 48
         }
       },
       {
         "PermissionSuffix": "2stashes",
         "AdditionalStorage": {
-          "Back Left Stash": 42,
-          "Back Right Stash": 42
+          "Back Left Stash": 48,
+          "Back Right Stash": 48
         }
       }
     ],
@@ -467,7 +484,7 @@ Default configuration:
       {
         "PermissionSuffix": "1stash",
         "AdditionalStorage": {
-          "Front Stash": 42
+          "Front Stash": 48
         }
       }
     ],
@@ -496,31 +513,31 @@ Default configuration:
       {
         "PermissionSuffix": "1stash",
         "AdditionalStorage": {
-          "Stash Below Pilot Seat": 42
+          "Stash Below Pilot Seat": 48
         }
       },
       {
         "PermissionSuffix": "2stashes",
         "AdditionalStorage": {
-          "Stash Below Pilot Seat": 42,
-          "Stash Below Front Seat": 42
+          "Stash Below Pilot Seat": 48,
+          "Stash Below Front Seat": 48
         }
       },
       {
         "PermissionSuffix": "3stashes",
         "AdditionalStorage": {
-          "Stash Below Pilot Seat": 42,
-          "Stash Below Front Seat": 42,
-          "Stash Behind Fuel Tank": 42
+          "Stash Below Pilot Seat": 48,
+          "Stash Below Front Seat": 48,
+          "Stash Behind Fuel Tank": 48
         }
       },
       {
         "PermissionSuffix": "4stashes",
         "AdditionalStorage": {
-          "Stash Below Pilot Seat": 42,
-          "Stash Below Front Seat": 42,
-          "Stash Below Left Seat": 42,
-          "Stash Below Right Seat": 42
+          "Stash Below Pilot Seat": 48,
+          "Stash Below Front Seat": 48,
+          "Stash Below Left Seat": 48,
+          "Stash Below Right Seat": 48
         }
       }
     ],
@@ -668,6 +685,10 @@ Default configuration:
       {
         "PermissionSuffix": "7rows",
         "BuiltInStorageCapacity": 42
+      },
+      {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
       }
     ]
   },
@@ -691,6 +712,10 @@ Default configuration:
       {
         "PermissionSuffix": "7rows",
         "BuiltInStorageCapacity": 42
+      },
+      {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
       }
     ]
   },
@@ -709,11 +734,15 @@ Default configuration:
         "BuiltInStorageCapacity": 42
       },
       {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
+      },
+      {
         "PermissionSuffix": "3boxes",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Back Left Box": 42,
-          "Back Right Box": 42
+          "Back Left Box": 48,
+          "Back Right Box": 48
         }
       }
     ],
@@ -754,14 +783,14 @@ Default configuration:
       {
         "PermissionSuffix": "1stash",
         "AdditionalStorage": {
-          "Back Left Stash": 42
+          "Back Left Stash": 48
         }
       },
       {
         "PermissionSuffix": "2stashes",
         "AdditionalStorage": {
-          "Back Left Stash": 42,
-          "Back Right Stash": 42
+          "Back Left Stash": 48,
+          "Back Right Stash": 48
         }
       }
     ],
@@ -823,10 +852,14 @@ Default configuration:
         "BuiltInStorageCapacity": 42
       },
       {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
+      },
+      {
         "PermissionSuffix": "2stashes",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Back Left Stash": 42
+          "Back Left Stash": 48
         }
       }
     ],
@@ -854,14 +887,14 @@ Default configuration:
       {
         "PermissionSuffix": "1box",
         "AdditionalStorage": {
-          "LeftBox": 42
+          "LeftBox": 48
         }
       },
       {
         "PermissionSuffix": "2boxes",
         "AdditionalStorage": {
-          "LeftBox": 42,
-          "RightBox": 42
+          "LeftBox": 48,
+          "RightBox": 48
         }
       }
     ],
@@ -892,7 +925,7 @@ Default configuration:
       {
         "PermissionSuffix": "1stash",
         "AdditionalStorage": {
-          "Middle Stash": 42
+          "Middle Stash": 48
         }
       }
     ],
@@ -939,11 +972,15 @@ Default configuration:
         "BuiltInStorageCapacity": 42
       },
       {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
+      },
+      {
         "PermissionSuffix": "2stashes",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Back Left Stash": 42,
-          "Back Right Stash": 42
+          "Back Left Stash": 48,
+          "Back Right Stash": 48
         }
       }
     ],
@@ -999,10 +1036,14 @@ Default configuration:
         "BuiltInStorageCapacity": 42
       },
       {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
+      },
+      {
         "PermissionSuffix": "1stash",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Back Left Stash": 42
+          "Back Left Stash": 48
         }
       }
     ],
@@ -1049,11 +1090,15 @@ Default configuration:
         "BuiltInStorageCapacity": 42
       },
       {
+        "PermissionSuffix": "8rows",
+        "BuiltInStorageCapacity": 48
+      },
+      {
         "PermissionSuffix": "2stashes",
-        "BuiltInStorageCapacity": 42,
+        "BuiltInStorageCapacity": 48,
         "AdditionalStorage": {
-          "Back Left Stash": 42,
-          "Back Right Stash": 42
+          "Back Left Stash": 48,
+          "Back Right Stash": 48
         }
       }
     ],
@@ -1094,14 +1139,14 @@ Default configuration:
       {
         "PermissionSuffix": "1box",
         "AdditionalStorage": {
-          "Front Box": 42
+          "Front Box": 48
         }
       },
       {
         "PermissionSuffix": "2boxes",
         "AdditionalStorage": {
-          "Front Box": 42,
-          "Back Box": 42
+          "Front Box": 48,
+          "Back Box": 48
         }
       }
     ],

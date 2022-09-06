@@ -35,7 +35,7 @@ namespace Oxide.Plugins
         private const string BoxDeployEffectPrefab = "assets/prefabs/deployable/woodenbox/effects/wooden-box-deploy.prefab";
 
         private const string ResizableLootPanelName = "generic_resizable";
-        private const int MaximumCapacity = 42;
+        private const int MaxCapacity = 48;
 
         private static readonly object False = false;
 
@@ -959,8 +959,8 @@ namespace Oxide.Plugins
                         PermissionSuffix = "2boxes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Left Box"] = 42,
-                            ["Front Right Box"] = 42,
+                            ["Front Left Box"] = MaxCapacity,
+                            ["Front Right Box"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
@@ -968,10 +968,10 @@ namespace Oxide.Plugins
                         PermissionSuffix = "4boxes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Left Box"] = 42,
-                            ["Front Right Box"] = 42,
-                            ["Front Upper Left Box"] = 42,
-                            ["Front Upper Right Box"] = 42,
+                            ["Front Left Box"] = MaxCapacity,
+                            ["Front Right Box"] = MaxCapacity,
+                            ["Front Upper Left Box"] = MaxCapacity,
+                            ["Front Upper Right Box"] = MaxCapacity,
                         },
                     },
                 },
@@ -1041,21 +1041,26 @@ namespace Oxide.Plugins
                     },
                     new VehicleProfile
                     {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
+                    new VehicleProfile
+                    {
                         PermissionSuffix = "1stash",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Stash"] = 42,
+                            ["Front Stash"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
                     {
                         PermissionSuffix = "2stashes",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Stash"] = 42,
-                            ["Back Stash"] = 42,
+                            ["Front Stash"] = MaxCapacity,
+                            ["Back Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1113,32 +1118,37 @@ namespace Oxide.Plugins
                     },
                     new VehicleProfile
                     {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
+                    new VehicleProfile
+                    {
                         PermissionSuffix = "2stashes",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Left Stash"] = 42,
+                            ["Front Left Stash"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
                     {
                         PermissionSuffix = "3stashes",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Left Stash"] = 42,
-                            ["Front Right Stash"] = 42,
+                            ["Front Left Stash"] = MaxCapacity,
+                            ["Front Right Stash"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
                     {
                         PermissionSuffix = "4stashes",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Left Stash"] = 42,
-                            ["Front Right Stash"] = 42,
-                            ["Back Right Stash"] = 42,
+                            ["Front Left Stash"] = MaxCapacity,
+                            ["Front Right Stash"] = MaxCapacity,
+                            ["Back Right Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1179,7 +1189,7 @@ namespace Oxide.Plugins
                         PermissionSuffix = "1stash",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Middle Stash"] = 42,
+                            ["Back Middle Stash"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
@@ -1187,8 +1197,8 @@ namespace Oxide.Plugins
                         PermissionSuffix = "2stashes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Left Stash"] = 42,
-                            ["Back Right Stash"] = 42,
+                            ["Back Left Stash"] = MaxCapacity,
+                            ["Back Right Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1229,7 +1239,7 @@ namespace Oxide.Plugins
                         PermissionSuffix = "1stash",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Stash"] = 42,
+                            ["Front Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1259,7 +1269,7 @@ namespace Oxide.Plugins
                         PermissionSuffix = "1stash",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Stash Below Pilot Seat"] = 42,
+                            ["Stash Below Pilot Seat"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
@@ -1267,8 +1277,8 @@ namespace Oxide.Plugins
                         PermissionSuffix = "2stashes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Stash Below Pilot Seat"] = 42,
-                            ["Stash Below Front Seat"] = 42,
+                            ["Stash Below Pilot Seat"] = MaxCapacity,
+                            ["Stash Below Front Seat"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
@@ -1276,9 +1286,9 @@ namespace Oxide.Plugins
                         PermissionSuffix = "3stashes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Stash Below Pilot Seat"] = 42,
-                            ["Stash Below Front Seat"] = 42,
-                            ["Stash Behind Fuel Tank"] = 42,
+                            ["Stash Below Pilot Seat"] = MaxCapacity,
+                            ["Stash Below Front Seat"] = MaxCapacity,
+                            ["Stash Behind Fuel Tank"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
@@ -1286,10 +1296,10 @@ namespace Oxide.Plugins
                         PermissionSuffix = "4stashes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Stash Below Pilot Seat"] = 42,
-                            ["Stash Below Front Seat"] = 42,
-                            ["Stash Below Left Seat"] = 42,
-                            ["Stash Below Right Seat"] = 42,
+                            ["Stash Below Pilot Seat"] = MaxCapacity,
+                            ["Stash Below Front Seat"] = MaxCapacity,
+                            ["Stash Below Left Seat"] = MaxCapacity,
+                            ["Stash Below Right Seat"] = MaxCapacity,
                         },
                     },
                 },
@@ -1387,6 +1397,11 @@ namespace Oxide.Plugins
                         PermissionSuffix = "7rows",
                         BuiltInStorageCapacity = 42,
                     },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
                 },
             };
 
@@ -1419,6 +1434,11 @@ namespace Oxide.Plugins
                         PermissionSuffix = "7rows",
                         BuiltInStorageCapacity = 42,
                     },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
                 },
             };
 
@@ -1444,12 +1464,17 @@ namespace Oxide.Plugins
                     },
                     new VehicleProfile
                     {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
+                    new VehicleProfile
+                    {
                         PermissionSuffix = "3boxes",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Left Box"] = 42,
-                            ["Back Right Box"] = 42,
+                            ["Back Left Box"] = MaxCapacity,
+                            ["Back Right Box"] = MaxCapacity,
                         },
                     },
                 },
@@ -1484,7 +1509,7 @@ namespace Oxide.Plugins
                         PermissionSuffix = "1stash",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Left Stash"] = 42,
+                            ["Back Left Stash"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
@@ -1492,8 +1517,8 @@ namespace Oxide.Plugins
                         PermissionSuffix = "2stashes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Left Stash"] = 42,
-                            ["Back Right Stash"] = 42,
+                            ["Back Left Stash"] = MaxCapacity,
+                            ["Back Right Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1553,11 +1578,16 @@ namespace Oxide.Plugins
                     },
                     new VehicleProfile
                     {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
+                    new VehicleProfile
+                    {
                         PermissionSuffix = "2stashes",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Left Stash"] = 42,
+                            ["Back Left Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1586,7 +1616,7 @@ namespace Oxide.Plugins
                         PermissionSuffix = "1box",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["LeftBox"] = 42,
+                            ["LeftBox"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
@@ -1594,8 +1624,8 @@ namespace Oxide.Plugins
                         PermissionSuffix = "2boxes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["LeftBox"] = 42,
-                            ["RightBox"] = 42,
+                            ["LeftBox"] = MaxCapacity,
+                            ["RightBox"] = MaxCapacity,
                         },
                     },
                 },
@@ -1628,7 +1658,7 @@ namespace Oxide.Plugins
                         PermissionSuffix = "1stash",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Middle Stash"] = 42,
+                            ["Middle Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1680,12 +1710,17 @@ namespace Oxide.Plugins
                     },
                     new VehicleProfile
                     {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
+                    new VehicleProfile
+                    {
                         PermissionSuffix = "2stashes",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Left Stash"] = 42,
-                            ["Back Right Stash"] = 42,
+                            ["Back Left Stash"] = MaxCapacity,
+                            ["Back Right Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1738,11 +1773,16 @@ namespace Oxide.Plugins
                     },
                     new VehicleProfile
                     {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
+                    new VehicleProfile
+                    {
                         PermissionSuffix = "1stash",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Left Stash"] = 42,
+                            ["Back Left Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1794,12 +1834,17 @@ namespace Oxide.Plugins
                     },
                     new VehicleProfile
                     {
+                        PermissionSuffix = "8rows",
+                        BuiltInStorageCapacity = 48,
+                    },
+                    new VehicleProfile
+                    {
                         PermissionSuffix = "2stashes",
-                        BuiltInStorageCapacity = 42,
+                        BuiltInStorageCapacity = MaxCapacity,
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Back Left Stash"] = 42,
-                            ["Back Right Stash"] = 42,
+                            ["Back Left Stash"] = MaxCapacity,
+                            ["Back Right Stash"] = MaxCapacity,
                         },
                     },
                 },
@@ -1834,7 +1879,7 @@ namespace Oxide.Plugins
                         PermissionSuffix = "1box",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Box"] = 42,
+                            ["Front Box"] = MaxCapacity,
                         },
                     },
                     new VehicleProfile
@@ -1842,8 +1887,8 @@ namespace Oxide.Plugins
                         PermissionSuffix = "2boxes",
                         AdditionalStorage = new Dictionary<string, int>
                         {
-                            ["Front Box"] = 42,
-                            ["Back Box"] = 42,
+                            ["Front Box"] = MaxCapacity,
+                            ["Back Box"] = MaxCapacity,
                         },
                     },
                 },
