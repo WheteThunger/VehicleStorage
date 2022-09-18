@@ -1616,6 +1616,28 @@ Each vehicle type has the following options.
   - `RotationAngles` -- Determines the rotation of the storage container relative to the vehicle.
   - `ParentBone` -- Determines which bone the storage container will be parented relative to on the vehicle.
 
+#### Example using `DefaultProfile`
+
+If you aim to add storage containers to all vehicles (regardless of permission), you will have to define the `DefaultProfile` similar to below. Note "`...`" is just an abbreviation to make the example easier to digest.
+
+```json
+"Minicopter": {
+  "DefaultProfile": {
+    "AdditionalStorage": {
+      "Stash Below Front Seat": 48
+      "Stash Below Pilot Seat": 48,
+      "Box Below Fuel Tank": 48,
+    }
+  },
+  "ProfilesRequiringPermission": [
+    ...
+  ],
+  "ContainerPresets": {
+    ...
+  }
+},
+```
+
 ## Developer API
 
 #### API_RefreshVehicleStorage
