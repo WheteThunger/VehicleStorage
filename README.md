@@ -1630,10 +1630,27 @@ If you aim to add storage containers to all vehicles (regardless of permission),
     }
   },
   "ProfilesRequiringPermission": [
-    ...
+    { ... },
+    { ... },
+    { ... },
+    { ... }
   ],
   "ContainerPresets": {
-    ...
+    "Stash Below Pilot Seat": {
+      "Prefab": "...",
+      "Position": { ... },
+      "RotationAngles": { ... }
+    },
+    "Stash Below Front Seat": {
+      "Prefab": "...",
+      "Position": { ... },
+      "RotationAngles": { ... }
+    },
+    "Box Below Fuel Tank": {
+      "Prefab": "...",
+      "Position": { ... },
+      "RotationAngles": { ... }
+    }
   }
 },
 ```
