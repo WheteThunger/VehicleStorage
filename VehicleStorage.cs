@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.3.0")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.3.1")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -844,7 +844,7 @@ namespace Oxide.Plugins
         private class LocomotiveConfig : VehicleConfig
         {
             public override string VehicleType => "locomotive";
-            public override string PrefabPath => "assets/content/vehicles/locomotive/locomotive.entity.prefab";
+            public override string PrefabPath => "assets/content/vehicles/trains/locomotive/locomotive.entity.prefab";
         }
 
         private class MagnetCraneConfig : VehicleConfig
@@ -952,37 +952,37 @@ namespace Oxide.Plugins
         private class WagonAConfig : VehicleConfig
         {
             public override string VehicleType => "wagona";
-            public override string PrefabPath => "assets/content/vehicles/train/trainwagona.entity.prefab";
+            public override string PrefabPath => "assets/content/vehicles/trains/wagons/trainwagona.entity.prefab";
         }
 
         private class WagonBConfig : VehicleConfig
         {
             public override string VehicleType => "wagonb";
-            public override string PrefabPath => "assets/content/vehicles/train/trainwagonb.entity.prefab";
+            public override string PrefabPath => "assets/content/vehicles/trains/wagons/trainwagonb.entity.prefab";
         }
 
         private class WagonCConfig : VehicleConfig
         {
             public override string VehicleType => "wagonc";
-            public override string PrefabPath => "assets/content/vehicles/train/trainwagonc.entity.prefab";
+            public override string PrefabPath => "assets/content/vehicles/trains/wagons/trainwagonc.entity.prefab";
         }
 
         private class WorkcartConfig : VehicleConfig
         {
             public override string VehicleType => "workcart";
-            public override string PrefabPath => "assets/content/vehicles/workcart/workcart.entity.prefab";
+            public override string PrefabPath => "assets/content/vehicles/trains/workcart/workcart.entity.prefab";
         }
 
         private class WorkcartAbovegroundConfig : VehicleConfig
         {
             public override string VehicleType => "workcartaboveground";
-            public override string PrefabPath => "assets/content/vehicles/workcart/workcart_aboveground.entity.prefab";
+            public override string PrefabPath => "assets/content/vehicles/trains/workcart/workcart_aboveground.entity.prefab";
         }
 
         private class WorkcartCoveredConfig : VehicleConfig
         {
             public override string VehicleType => "workcartcovered";
-            public override string PrefabPath => "assets/content/vehicles/workcart/workcart_aboveground2.entity.prefab";
+            public override string PrefabPath => "assets/content/vehicles/trains/workcart/workcart_aboveground2.entity.prefab";
         }
 
         private class Configuration : SerializableConfiguration
