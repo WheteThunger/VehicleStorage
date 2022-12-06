@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.3.1")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.3.2")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -1051,16 +1051,11 @@ namespace Oxide.Plugins
             {
                 DefaultProfile = new VehicleProfile
                 {
-                    BuiltInStorageCapacity = 12,
+                    BuiltInStorageCapacity = 18,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
                 ProfilesRequiringPermission = new VehicleProfile[]
                 {
-                    new VehicleProfile
-                    {
-                        PermissionSuffix = "3rows",
-                        BuiltInStorageCapacity = 18,
-                    },
                     new VehicleProfile
                     {
                         PermissionSuffix = "4rows",
@@ -1128,16 +1123,11 @@ namespace Oxide.Plugins
             {
                 DefaultProfile = new VehicleProfile
                 {
-                    BuiltInStorageCapacity = 12,
+                    BuiltInStorageCapacity = 18,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
                 ProfilesRequiringPermission = new VehicleProfile[]
                 {
-                    new VehicleProfile
-                    {
-                        PermissionSuffix = "3rows",
-                        BuiltInStorageCapacity = 18,
-                    },
                     new VehicleProfile
                     {
                         PermissionSuffix = "4rows",
@@ -1518,16 +1508,11 @@ namespace Oxide.Plugins
             {
                 DefaultProfile = new VehicleProfile
                 {
-                    BuiltInStorageCapacity = 30,
+                    BuiltInStorageCapacity = 36,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
                 ProfilesRequiringPermission = new VehicleProfile[]
                 {
-                    new VehicleProfile
-                    {
-                        PermissionSuffix = "6rows",
-                        BuiltInStorageCapacity = 36,
-                    },
                     new VehicleProfile
                     {
                         PermissionSuffix = "7rows",
@@ -1617,16 +1602,11 @@ namespace Oxide.Plugins
             {
                 DefaultProfile = new VehicleProfile
                 {
-                    BuiltInStorageCapacity = 12,
+                    BuiltInStorageCapacity = 18,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
                 ProfilesRequiringPermission = new VehicleProfile[]
                 {
-                    new VehicleProfile
-                    {
-                        PermissionSuffix = "3rows",
-                        BuiltInStorageCapacity = 18,
-                    },
                     new VehicleProfile
                     {
                         PermissionSuffix = "4rows",

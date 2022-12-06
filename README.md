@@ -129,7 +129,6 @@ The following permissions come with this plugin's **default configuration**. You
 
 #### Rowboat
 
-- `vehiclestorage.rowboat.3rows` -- 3 rows (18 total capacity)
 - `vehiclestorage.rowboat.4rows` -- 4 rows (24 total capacity)
 - `vehiclestorage.rowboat.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.rowboat.6rows` -- 6 rows (36 total capacity)
@@ -139,7 +138,6 @@ The following permissions come with this plugin's **default configuration**. You
 
 #### RHIB
 
-- `vehiclestorage.rhib.6rows` -- 6 rows (36 total capacity)
 - `vehiclestorage.rhib.7rows` -- 7 rows (42 total capacity)
 - `vehiclestorage.rhib.8rows` -- 8 rows (48 total capacity)
 - `vehiclestorage.rhib.3boxes` -- 8 rows + 2 x 48-slot box (144 total capacity)
@@ -155,7 +153,6 @@ The following permissions come with this plugin's **default configuration**. You
 
 #### Duo Submarine
 
-- `vehiclestorage.duosub.3rows` -- 3 rows (18 total capacity)
 - `vehiclestorage.duosub.4rows` -- 4 rows (24 total capacity)
 - `vehiclestorage.duosub.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.duosub.6rows` -- 6 rows (36 total capacity)
@@ -168,7 +165,6 @@ The following permissions come with this plugin's **default configuration**. You
 
 #### Hot Air Balloon
 
-- `vehiclestorage.hotairballoon.3rows` -- 3 rows (18 total capacity)
 - `vehiclestorage.hotairballoon.4rows` -- 4 rows (24 total capacity)
 - `vehiclestorage.hotairballoon.5rows` -- 5 rows (30 total capacity)
 - `vehiclestorage.hotairballoon.6rows` -- 6 rows (36 total capacity)
@@ -280,14 +276,10 @@ Default configuration:
   },
   "DuoSubmarine": {
     "DefaultProfile": {
-      "BuiltInStorageCapacity": 12,
+      "BuiltInStorageCapacity": 18,
       "AdditionalStorage": {}
     },
     "ProfilesRequiringPermission": [
-      {
-        "PermissionSuffix": "3rows",
-        "BuiltInStorageCapacity": 18
-      },
       {
         "PermissionSuffix": "4rows",
         "BuiltInStorageCapacity": 24
@@ -355,14 +347,10 @@ Default configuration:
   },
   "HotAirBalloon": {
     "DefaultProfile": {
-      "BuiltInStorageCapacity": 12,
+      "BuiltInStorageCapacity": 18,
       "AdditionalStorage": {}
     },
     "ProfilesRequiringPermission": [
-      {
-        "PermissionSuffix": "3rows",
-        "BuiltInStorageCapacity": 18
-      },
       {
         "PermissionSuffix": "4rows",
         "BuiltInStorageCapacity": 24
@@ -784,14 +772,10 @@ Default configuration:
   },
   "RHIB": {
     "DefaultProfile": {
-      "BuiltInStorageCapacity": 30,
+      "BuiltInStorageCapacity": 36,
       "AdditionalStorage": {}
     },
     "ProfilesRequiringPermission": [
-      {
-        "PermissionSuffix": "6rows",
-        "BuiltInStorageCapacity": 36
-      },
       {
         "PermissionSuffix": "7rows",
         "BuiltInStorageCapacity": 42
@@ -890,14 +874,10 @@ Default configuration:
   },
   "Rowboat": {
     "DefaultProfile": {
-      "BuiltInStorageCapacity": 12,
+      "BuiltInStorageCapacity": 18,
       "AdditionalStorage": {}
     },
     "ProfilesRequiringPermission": [
-      {
-        "PermissionSuffix": "3rows",
-        "BuiltInStorageCapacity": 18
-      },
       {
         "PermissionSuffix": "4rows",
         "BuiltInStorageCapacity": 24
