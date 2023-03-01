@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.3.2")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.3.3")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -27,9 +27,6 @@ namespace Oxide.Plugins
 
         private const string RhibStoragePrefab = "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab";
         private const string HabStoragePrefab = "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab";
-
-        private const string ItemDropPrefab = "assets/prefabs/misc/item drop/item_drop.prefab";
-        private const string ItemDropBuoyantPrefab = "assets/prefabs/misc/item drop/item_drop_buoyant.prefab";
 
         private const string StashDeployEffectPrefab = "assets/prefabs/deployable/small stash/effects/small-stash-deploy.prefab";
         private const string BoxDeployEffectPrefab = "assets/prefabs/deployable/woodenbox/effects/wooden-box-deploy.prefab";
@@ -194,11 +191,7 @@ namespace Oxide.Plugins
                 // New vehicle has no container presets, so kill the containers.
                 foreach (var container in reskinEvent.Containers)
                 {
-                    var oldContainerPreset = reskinEvent.VehicleConfig.FindContainerPreset(container.name);
-                    var dropPosition = oldContainerPreset != null ? transform.TransformPoint(oldContainerPreset.Position) : Vector3.zero;
-                    var dropRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-
-                    DropItems(container, dropPosition, dropRotation);
+                    container.DropItems();
                     container.Kill();
                 }
 
@@ -211,12 +204,7 @@ namespace Oxide.Plugins
                 var newContainerPreset = newVehicleConfig.FindContainerPreset(containerName);
                 if (newContainerPreset == null || container.PrefabName != newContainerPreset.Prefab)
                 {
-                    // Container does not belong on the new vehicle, so remove it.
-                    var oldContainerPreset = reskinEvent.VehicleConfig.FindContainerPreset(containerName);
-                    var dropPosition = oldContainerPreset != null ? transform.TransformPoint(oldContainerPreset.Position) : Vector3.zero;
-                    var dropRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-
-                    DropItems(container, dropPosition, dropRotation);
+                    container.DropItems();
                     container.Kill();
                     continue;
                 }
@@ -283,24 +271,6 @@ namespace Oxide.Plugins
         #endregion
 
         #region Helper Methods
-
-        private static void DropItems(StorageContainer container, Vector3 position, Quaternion rotation = new Quaternion())
-        {
-            var inventory = container.inventory;
-            var itemCount = inventory.itemList.Count;
-
-            if (itemCount == 0)
-                return;
-
-            if (container.ShouldDropItemsIndividually() || itemCount == 1)
-            {
-                DropUtil.DropItems(inventory, position);
-                return;
-            }
-
-            var prefab = container.DropFloats ? ItemDropBuoyantPrefab : ItemDropPrefab;
-            inventory.Drop(prefab, position, rotation);
-        }
 
         private void RemoveProblemComponents(BaseEntity entity)
         {
@@ -626,7 +596,7 @@ namespace Oxide.Plugins
                             if (container == null || container.IsDestroyed)
                                 continue;
 
-                            DropItems(container, reskinEvent.Position + Vector3.up);
+                            container.DropItems();
                             container.Kill();
                         }
 
