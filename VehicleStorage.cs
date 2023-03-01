@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using Oxide.Core;
 using Oxide.Core.Libraries;
 using Oxide.Core.Plugins;
@@ -21,7 +20,7 @@ namespace Oxide.Plugins
         [PluginReference]
         private Plugin CargoTrainEvent;
 
-        private Configuration _pluginConfig;
+        private Configuration _config;
 
         private const string BasePermissionPrefix = "vehiclestorage";
 
@@ -37,12 +36,7 @@ namespace Oxide.Plugins
         private static readonly object False = false;
 
         private readonly VehicleTracker _vehicleTracker = new VehicleTracker();
-        private readonly ReskinEventManager _reskinEventManager;
-
-        public VehicleStorage()
-        {
-            _reskinEventManager = new ReskinEventManager(_vehicleTracker);
-        }
+        private readonly ReskinEventManager _reskinEventManager = new ReskinEventManager();
 
         #endregion
 
@@ -55,7 +49,7 @@ namespace Oxide.Plugins
 
         private void OnServerInitialized()
         {
-            _pluginConfig.Init(this);
+            _config.Init(this);
 
             foreach (var networkable in BaseNetworkable.serverEntities)
             {
@@ -71,7 +65,7 @@ namespace Oxide.Plugins
 
         private void OnEntitySpawned(BaseEntity entity)
         {
-            var vehicleConfig = _pluginConfig.GetVehicleConfig(entity);
+            var vehicleConfig = _config.GetVehicleConfig(entity);
             if (vehicleConfig == null)
                 return;
 
@@ -89,7 +83,7 @@ namespace Oxide.Plugins
 
         private void OnEntityKill(BaseEntity entity)
         {
-            var vehicleConfig = _pluginConfig.GetVehicleConfig(entity);
+            var vehicleConfig = _config.GetVehicleConfig(entity);
             if (vehicleConfig == null || vehicleConfig.ContainerPresets == null)
                 return;
 
@@ -112,13 +106,17 @@ namespace Oxide.Plugins
         private void OnUserPermissionGranted(string userId, string perm)
         {
             if (perm.StartsWith(BasePermissionPrefix))
+            {
                 HandlePermissionChanged(userId);
+            }
         }
 
         private void OnGroupPermissionGranted(string group, string perm)
         {
             if (perm.StartsWith(BasePermissionPrefix))
+            {
                 HandlePermissionChanged();
+            }
         }
 
         private void OnUserGroupAdded(string userId, string groupName)
@@ -141,8 +139,8 @@ namespace Oxide.Plugins
 
         private void OnEntityReskin(Snowmobile snowmobile, ItemSkinDirectory.Skin skin, BasePlayer player)
         {
-            var vehicleConfig = _pluginConfig.GetVehicleConfig(snowmobile);
-            if (vehicleConfig == null || vehicleConfig.ContainerPresets == null)
+            var vehicleConfig = _config.GetVehicleConfig(snowmobile);
+            if (vehicleConfig?.ContainerPresets == null)
                 return;
 
             var reskinEvent = _reskinEventManager.GetEvent()
@@ -185,8 +183,8 @@ namespace Oxide.Plugins
             if (reskinEvent == null)
                 return;
 
-            var newVehicleConfig = _pluginConfig.GetVehicleConfig(snowmobile);
-            if (newVehicleConfig == null || newVehicleConfig.ContainerPresets == null)
+            var newVehicleConfig = _config.GetVehicleConfig(snowmobile);
+            if (newVehicleConfig?.ContainerPresets == null)
             {
                 // New vehicle has no container presets, so kill the containers.
                 foreach (var container in reskinEvent.Containers)
@@ -247,7 +245,7 @@ namespace Oxide.Plugins
 
         private bool AlterStorageWasBlocked(BaseEntity vehicle)
         {
-            object hookResult = Interface.CallHook("OnVehicleStorageUpdate", vehicle);
+            var hookResult = Interface.CallHook("OnVehicleStorageUpdate", vehicle);
             if (hookResult is bool && (bool)hookResult == false)
                 return true;
 
@@ -259,7 +257,7 @@ namespace Oxide.Plugins
 
         private bool SpawnStorageWasBlocked(BaseEntity vehicle)
         {
-            object hookResult = Interface.CallHook("OnVehicleStorageSpawn", vehicle);
+            var hookResult = Interface.CallHook("OnVehicleStorageSpawn", vehicle);
             return hookResult is bool && (bool)hookResult == false;
         }
 
@@ -275,7 +273,9 @@ namespace Oxide.Plugins
         private void RemoveProblemComponents(BaseEntity entity)
         {
             foreach (var meshCollider in entity.GetComponentsInChildren<MeshCollider>())
+            {
                 UnityEngine.Object.DestroyImmediate(meshCollider);
+            }
 
             UnityEngine.Object.DestroyImmediate(entity.GetComponent<DestroyOnGroundMissing>());
             UnityEngine.Object.DestroyImmediate(entity.GetComponent<GroundWatch>());
@@ -347,7 +347,9 @@ namespace Oxide.Plugins
             // Don't decrease capacity, in case there are items in those slots.
             // It's possible to handle that better, but not a priority as of writing this.
             if (capacity != -1 && container.inventory.capacity < capacity)
+            {
                 container.inventory.capacity = capacity;
+            }
         }
 
         private void AddOrUpdateExtraContainers(BaseEntity vehicle, VehicleProfile vehicleProfile)
@@ -360,20 +362,19 @@ namespace Oxide.Plugins
                 var container = FindStorageContainerForPreset(vehicle, containerPreset);
                 if (container == null)
                 {
-                    container = SpawnStorage(vehicle, containerPreset, capacity);
+                    SpawnStorage(vehicle, containerPreset, capacity);
+                    continue;
                 }
-                else
+
+                SetupStorage(container, containerPreset);
+                MaybeIncreaseCapacity(container, capacity);
+                var transform = container.transform;
+                if (transform.localPosition != containerPreset.Position || transform.localRotation != containerPreset.Rotation)
                 {
-                    SetupStorage(container, containerPreset);
-                    MaybeIncreaseCapacity(container, capacity);
-                    var transform = container.transform;
-                    if (transform.localPosition != containerPreset.Position || transform.localRotation != containerPreset.Rotation)
-                    {
-                        transform.localPosition = containerPreset.Position;
-                        transform.localRotation = containerPreset.Rotation;
-                        container.InvalidateNetworkCache();
-                        container.SendNetworkUpdate_Position();
-                    }
+                    transform.localPosition = containerPreset.Position;
+                    transform.localRotation = containerPreset.Rotation;
+                    container.InvalidateNetworkCache();
+                    container.SendNetworkUpdate_Position();
                 }
             }
         }
@@ -395,10 +396,14 @@ namespace Oxide.Plugins
 
             var defaultContainer = vehicleConfig.GetDefaultContainer(vehicle);
             if (defaultContainer != null)
+            {
                 MaybeIncreaseCapacity(defaultContainer, vehicleProfile.BuiltInStorageCapacity);
+            }
 
             if (vehicleProfile.ValidAdditionalStorage != null)
+            {
                 AddOrUpdateExtraContainers(vehicle, vehicleProfile);
+            }
         }
 
         private void RefreshVehicleStorage(BaseEntity vehicle)
@@ -416,7 +421,7 @@ namespace Oxide.Plugins
                 return;
             }
 
-            var vehicleConfig = _pluginConfig.GetVehicleConfig(vehicle);
+            var vehicleConfig = _config.GetVehicleConfig(vehicle);
             if (vehicleConfig == null)
                 return;
 
@@ -495,8 +500,6 @@ namespace Oxide.Plugins
             public List<StorageContainer> Containers = new List<StorageContainer>();
             public Vector3 Position;
 
-            public bool IsAvailable() => Parent != null && !Parent.IsDestroyed;
-
             public ReskinEvent WithParent(BaseEntity parent)
             {
                 Parent = parent;
@@ -510,10 +513,9 @@ namespace Oxide.Plugins
                 return this;
             }
 
-            public ReskinEvent AddContainer(StorageContainer container)
+            public void AddContainer(StorageContainer container)
             {
                 Containers.Add(container);
-                return this;
             }
 
             public void Reset()
@@ -526,8 +528,6 @@ namespace Oxide.Plugins
 
         private class ReskinEventManager
         {
-            private VehicleTracker _vehicleTracker;
-
             // Pool only a single reskin event since usually there will be at most a single event per frame.
             private ReskinEvent _pooledReskinEvent;
 
@@ -536,10 +536,9 @@ namespace Oxide.Plugins
 
             public readonly Action CleanupAction;
 
-            public ReskinEventManager(VehicleTracker vehicleTracker)
+            public ReskinEventManager()
             {
                 CleanupAction = CleanupEvents;
-                _vehicleTracker = vehicleTracker;
             }
 
             public ReskinEvent GetEvent()
@@ -642,19 +641,7 @@ namespace Oxide.Plugins
             public string ParentBone;
 
             [JsonIgnore]
-            private Quaternion? _rotation;
-
-            [JsonIgnore]
-            public Quaternion Rotation
-            {
-                get
-                {
-                    if (_rotation == null)
-                        _rotation = Quaternion.Euler(RotationAngles);
-
-                    return (Quaternion)_rotation;
-                }
-            }
+            public Quaternion Rotation => Quaternion.Euler(RotationAngles);
 
             [JsonIgnore]
             public string Name;
@@ -754,7 +741,9 @@ namespace Oxide.Plugins
                 DefaultProfile.Init(pluginInstance, this);
 
                 foreach (var profile in ProfilesRequiringPermission)
+                {
                     profile.Init(pluginInstance, this);
+                }
             }
 
             public VehicleProfile GetProfileForVehicle(Permission permissionSystem, BaseEntity vehicle)
@@ -802,7 +791,7 @@ namespace Oxide.Plugins
             public override string PrefabPath => "assets/prefabs/deployable/hot air balloon/hotairballoon.prefab";
 
             public override StorageContainer GetDefaultContainer(BaseEntity entity) =>
-                (entity as HotAirBalloon)?.storageUnitInstance.Get(serverside: true) as StorageContainer;
+                (entity as HotAirBalloon)?.storageUnitInstance.Get(serverside: true);
         }
 
         private class KayakConfig : VehicleConfig
@@ -871,7 +860,7 @@ namespace Oxide.Plugins
             public override string PrefabPath => "assets/content/vehicles/boats/rowboat/rowboat.prefab";
 
             public override StorageContainer GetDefaultContainer(BaseEntity entity) =>
-                (entity as MotorRowboat)?.storageUnitInstance.Get(serverside: true) as StorageContainer;
+                (entity as MotorRowboat)?.storageUnitInstance.Get(serverside: true);
         }
 
         private class ScrapTransportHelicopterConfig : VehicleConfig
@@ -955,7 +944,7 @@ namespace Oxide.Plugins
             public override string PrefabPath => "assets/content/vehicles/trains/workcart/workcart_aboveground2.entity.prefab";
         }
 
-        private class Configuration : SerializableConfiguration
+        private class Configuration : BaseConfiguration
         {
             [JsonProperty("Chinook")]
             public ChinookConfig Chinook = new ChinookConfig
@@ -964,7 +953,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1024,7 +1013,7 @@ namespace Oxide.Plugins
                     BuiltInStorageCapacity = 18,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1096,7 +1085,7 @@ namespace Oxide.Plugins
                     BuiltInStorageCapacity = 18,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1184,7 +1173,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1234,7 +1223,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1263,7 +1252,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1293,7 +1282,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1401,7 +1390,7 @@ namespace Oxide.Plugins
                     BuiltInStorageCapacity = 12,
                 },
 
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1443,7 +1432,7 @@ namespace Oxide.Plugins
                 {
                     BuiltInStorageCapacity = 18,
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1481,7 +1470,7 @@ namespace Oxide.Plugins
                     BuiltInStorageCapacity = 36,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1528,7 +1517,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1575,7 +1564,7 @@ namespace Oxide.Plugins
                     BuiltInStorageCapacity = 18,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1630,7 +1619,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1672,7 +1661,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1701,7 +1690,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1731,7 +1720,7 @@ namespace Oxide.Plugins
                     BuiltInStorageCapacity = 12,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1799,7 +1788,7 @@ namespace Oxide.Plugins
                     BuiltInStorageCapacity = 18,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1855,7 +1844,7 @@ namespace Oxide.Plugins
                     BuiltInStorageCapacity = 12,
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1922,7 +1911,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -1981,7 +1970,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -2040,7 +2029,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -2099,7 +2088,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -2143,7 +2132,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -2187,7 +2176,7 @@ namespace Oxide.Plugins
                 {
                     AdditionalStorage = new Dictionary<string, int>(),
                 },
-                ProfilesRequiringPermission = new VehicleProfile[]
+                ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
@@ -2281,9 +2270,9 @@ namespace Oxide.Plugins
 
         #endregion
 
-        #region Configuration Boilerplate
+        #region Configuration Helpers
 
-        private class SerializableConfiguration
+        private class BaseConfiguration
         {
             public string ToJson() => JsonConvert.SerializeObject(this);
 
@@ -2312,7 +2301,7 @@ namespace Oxide.Plugins
             }
         }
 
-        private bool MaybeUpdateConfig(SerializableConfiguration config)
+        private bool MaybeUpdateConfig(BaseConfiguration config)
         {
             var currentWithDefaults = config.ToDictionary();
             var currentRaw = Config.ToDictionary(x => x.Key, x => x.Value);
@@ -2321,7 +2310,7 @@ namespace Oxide.Plugins
 
         private bool MaybeUpdateConfigDict(Dictionary<string, object> currentWithDefaults, Dictionary<string, object> currentRaw)
         {
-            bool changed = false;
+            var changed = false;
 
             foreach (var key in currentWithDefaults.Keys)
             {
@@ -2352,20 +2341,20 @@ namespace Oxide.Plugins
             return changed;
         }
 
-        protected override void LoadDefaultConfig() => _pluginConfig = GetDefaultConfig();
+        protected override void LoadDefaultConfig() => _config = GetDefaultConfig();
 
         protected override void LoadConfig()
         {
             base.LoadConfig();
             try
             {
-                _pluginConfig = Config.ReadObject<Configuration>();
-                if (_pluginConfig == null)
+                _config = Config.ReadObject<Configuration>();
+                if (_config == null)
                 {
                     throw new JsonException();
                 }
 
-                if (MaybeUpdateConfig(_pluginConfig))
+                if (MaybeUpdateConfig(_config))
                 {
                     LogWarning("Configuration appears to be outdated; updating and saving");
                     SaveConfig();
@@ -2382,7 +2371,7 @@ namespace Oxide.Plugins
         protected override void SaveConfig()
         {
             Log($"Configuration changes saved to {Name}.json");
-            Config.WriteObject(_pluginConfig, true);
+            Config.WriteObject(_config, true);
         }
 
         #endregion
