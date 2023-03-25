@@ -7,7 +7,7 @@
 #### Notes
 
 - Additional storage containers will drop their items when the vehicle is destroyed.
-- Compatible with [Claim Vehicle Ownership](https://umod.org/plugins/claim-vehicle-ownership), allowing storage to dynamically change when a player claims a vehicle.
+- Compatible with [Claim Vehicle](https://umod.org/plugins/claim-vehicle), allowing storage to dynamically change when a player claims a vehicle.
 - Granting permission to a user, granting permission to a group, or adding a user to a group will automatically add or update storage on applicable owned vehicles.
 
 ## Limitations
@@ -23,7 +23,7 @@ Permissions in this plugin apply solely based on vehicle ownership. Vehicle owne
 
 - [Vehicle Vendor Options](https://umod.org/plugins/vehicle-vendor-options) -- Automatically assigns ownership of vehicles purchased at vanilla NPC vendors if the player has permission.
 - [Craft Car Chassis](https://umod.org/plugins/craft-car-chassis) -- Automatically assigns ownership of cars built by players, if the config option for that is enabled.
-- [Claim Vehicle Ownership](https://umod.org/plugins/claim-vehicle-ownership) -- Allows players with permission to claim ownership of unowned vehicles using a command on cooldown.
+- [Claim Vehicle](https://umod.org/plugins/claim-vehicle) -- Allows players with permission to claim ownership of unowned vehicles using a command on cooldown.
 - [Vehicle License](https://umod.org/plugins/vehicle-license), [Spawn Modular Car](https://umod.org/plugins/spawn-modular-car) and other similar plugins that spawn vehicles for players will automatically assign ownership.
 
 The following permissions come with this plugin's **default configuration**. You can fully customize these presets, as well as add new ones in the plugin configuration. If a player has permission to multiple presets for a given vehicle, the last will be used, based on the order in the config.
