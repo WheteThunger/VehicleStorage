@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.3.3")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.3.4")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -32,8 +32,6 @@ namespace Oxide.Plugins
 
         private const string ResizableLootPanelName = "generic_resizable";
         private const int MaxCapacity = 48;
-
-        private static readonly object False = false;
 
         private readonly VehicleTracker _vehicleTracker = new VehicleTracker();
         private readonly ReskinEventManager _reskinEventManager = new ReskinEventManager();
@@ -1430,34 +1428,26 @@ namespace Oxide.Plugins
             {
                 DefaultProfile = new VehicleProfile
                 {
-                    BuiltInStorageCapacity = 18,
+                    BuiltInStorageCapacity = 48,
                 },
                 ProfilesRequiringPermission = new[]
                 {
                     new VehicleProfile
                     {
-                        PermissionSuffix = "4rows",
-                        BuiltInStorageCapacity = 24,
-                    },
-                    new VehicleProfile
-                    {
-                        PermissionSuffix = "5rows",
-                        BuiltInStorageCapacity = 30,
-                    },
-                    new VehicleProfile
-                    {
-                        PermissionSuffix = "6rows",
-                        BuiltInStorageCapacity = 36,
-                    },
-                    new VehicleProfile
-                    {
-                        PermissionSuffix = "7rows",
-                        BuiltInStorageCapacity = 42,
-                    },
-                    new VehicleProfile
-                    {
-                        PermissionSuffix = "8rows",
+                        PermissionSuffix = "1box",
                         BuiltInStorageCapacity = 48,
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Middle Box"] = MaxCapacity,
+                        },
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Middle Box"] = new ContainerPreset
+                    {
+                        Prefab = RhibStoragePrefab,
+                        Position = new Vector3(0, 0.61f, 0),
                     },
                 },
             };

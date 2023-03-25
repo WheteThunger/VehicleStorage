@@ -46,11 +46,7 @@ The following permissions come with this plugin's **default configuration**. You
 
 #### Modular Car storage module
 
-- `vehiclestorage.modularcarstorage.4rows` -- 4 rows (24 total capacity)
-- `vehiclestorage.modularcarstorage.5rows` -- 5 rows (30 total capacity)
-- `vehiclestorage.modularcarstorage.6rows` -- 6 rows (36 total capacity)
-- `vehiclestorage.modularcarstorage.7rows` -- 7 rows (42 total capacity)
-- `vehiclestorage.modularcarstorage.8rows` -- 8 rows (48 total capacity)
+- `vehiclestorage.modularcarstorage.1box` -- 8 rows + 1 x 48-slot box (96 total capacity)
 
 #### Snowmobile
 
@@ -745,30 +741,27 @@ Default configuration:
   },
   "ModularCarStorageModule": {
     "DefaultProfile": {
-      "BuiltInStorageCapacity": 18
+      "BuiltInStorageCapacity": 48
     },
     "ProfilesRequiringPermission": [
       {
-        "PermissionSuffix": "4rows",
-        "BuiltInStorageCapacity": 24
-      },
-      {
-        "PermissionSuffix": "5rows",
-        "BuiltInStorageCapacity": 30
-      },
-      {
-        "PermissionSuffix": "6rows",
-        "BuiltInStorageCapacity": 36
-      },
-      {
-        "PermissionSuffix": "7rows",
-        "BuiltInStorageCapacity": 42
-      },
-      {
-        "PermissionSuffix": "8rows",
-        "BuiltInStorageCapacity": 48
+        "PermissionSuffix": "1box",
+        "BuiltInStorageCapacity": 48,
+        "AdditionalStorage": {
+          "Middle Box": 48
+        }
       }
-    ]
+    ],
+    "ContainerPresets": {
+      "Middle Box": {
+        "Prefab": "assets/content/vehicles/boats/rhib/subents/rhib_storage.prefab",
+        "Position": {
+          "x": 0.0,
+          "y": 0.61,
+          "z": 0.0
+        }
+      }
+    }
   },
   "RHIB": {
     "DefaultProfile": {
