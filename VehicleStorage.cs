@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.3.4")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.3.5")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -35,6 +35,7 @@ namespace Oxide.Plugins
 
         private readonly VehicleTracker _vehicleTracker = new VehicleTracker();
         private readonly ReskinEventManager _reskinEventManager = new ReskinEventManager();
+        private readonly ContainerBoundsManager _containerBoundsManager = new ContainerBoundsManager();
 
         #endregion
 
@@ -48,6 +49,7 @@ namespace Oxide.Plugins
         private void OnServerInitialized()
         {
             _config.Init(this);
+            _containerBoundsManager.OnServerInitialized(this);
 
             foreach (var networkable in BaseNetworkable.serverEntities)
             {
@@ -279,12 +281,39 @@ namespace Oxide.Plugins
             UnityEngine.Object.DestroyImmediate(entity.GetComponent<GroundWatch>());
         }
 
-        private void SetupStorage(StorageContainer container, ContainerPreset preset)
+        private void SetupStorage(BaseEntity vehicle, StorageContainer container, ContainerPreset preset)
         {
+            if (container.IsFullySpawned())
+            {
+                MoveOverlappingDismountPositions(vehicle, container);
+            }
+
             container.name = preset.Name;
             container.pickup.enabled = false;
             container.dropsLoot = true;
             RemoveProblemComponents(container);
+        }
+
+        private void MoveOverlappingDismountPositions(BaseEntity vehicle, StorageContainer container)
+        {
+            var vehicleEntity = vehicle as BaseVehicle;
+            if (vehicleEntity == null)
+                return;
+
+            var containerTransform = container.transform;
+            var containerLocalPosition = containerTransform.localPosition;
+            var containerBounds = _containerBoundsManager.GetBounds(container);
+            var containerWorldBounds = new OBB(containerTransform.position, containerTransform.lossyScale, containerTransform.rotation, containerBounds);
+
+            foreach (var dismountTransform in vehicleEntity.dismountPositions)
+            {
+                if (containerWorldBounds.Contains(dismountTransform.position))
+                {
+                    var newDismountLocalPosition = dismountTransform.localPosition;
+                    newDismountLocalPosition.y = containerLocalPosition.y + containerBounds.center.y + containerBounds.extents.y + 0.4f;
+                    dismountTransform.localPosition = newDismountLocalPosition;
+                }
+            }
         }
 
         private StorageContainer SpawnStorage(BaseEntity vehicle, ContainerPreset preset, int capacity)
@@ -304,9 +333,10 @@ namespace Oxide.Plugins
             }
 
             container.name = preset.Name;
-            SetupStorage(container, preset);
+            SetupStorage(vehicle, container, preset);
             container.SetParent(vehicle, preset.ParentBone);
             container.Spawn();
+            MoveOverlappingDismountPositions(vehicle, container);
             MaybeIncreaseCapacity(container, capacity);
             CallHookVehicleStorageSpawned(vehicle, container);
 
@@ -364,7 +394,7 @@ namespace Oxide.Plugins
                     continue;
                 }
 
-                SetupStorage(container, containerPreset);
+                SetupStorage(vehicle, container, containerPreset);
                 MaybeIncreaseCapacity(container, capacity);
                 var transform = container.transform;
                 if (transform.localPosition != containerPreset.Position || transform.localRotation != containerPreset.Rotation)
@@ -450,6 +480,51 @@ namespace Oxide.Plugins
 
                     RefreshVehicleStorage(vehicle, vehicleConfig);
                 }
+            }
+        }
+
+        #endregion
+
+        #region Container Bounds Manager
+
+        private class ContainerBoundsManager
+        {
+            private readonly Dictionary<string, string> _boundsReplacements = new Dictionary<string, string>
+            {
+                // The RHIB storage bounds are small, so use the normal wooden box bounds.
+                [RhibStoragePrefab] = "assets/prefabs/deployable/woodenbox/woodbox_deployed.prefab",
+            };
+
+            private readonly Dictionary<uint, Bounds> _boundsReplacementsByPrefabId = new Dictionary<uint, Bounds>();
+
+            public void OnServerInitialized(VehicleStorage plugin)
+            {
+                foreach (var entry in _boundsReplacements)
+                {
+                    var destinationEntity = GameManager.server.FindPrefab(entry.Key)?.GetComponent<BaseEntity>();
+                    if (destinationEntity == null)
+                    {
+                        plugin.LogWarning($"Prefab not found: {entry.Key}");
+                        continue;
+                    }
+
+                    var sourceEntity = GameManager.server.FindPrefab(entry.Value)?.GetComponent<BaseEntity>();
+                    if (sourceEntity == null)
+                    {
+                        plugin.LogWarning($"Prefab not found: {entry.Value}");
+                        continue;
+                    }
+
+                    _boundsReplacementsByPrefabId[destinationEntity.prefabID] = sourceEntity.bounds;
+                }
+            }
+
+            public Bounds GetBounds(BaseEntity entity)
+            {
+                Bounds bounds;
+                return _boundsReplacementsByPrefabId.TryGetValue(entity.prefabID, out bounds)
+                    ? bounds
+                    : entity.bounds;
             }
         }
 
