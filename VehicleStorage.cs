@@ -846,6 +846,12 @@ namespace Oxide.Plugins
             }
         }
 
+        private class AttackHelicopterConfig : VehicleConfig
+        {
+            public override string VehicleType => "attackhelicopter";
+            public override string PrefabPath => "assets/content/vehicles/attackhelicopter/attackhelicopter.entity.prefab";
+        }
+
         private class ChinookConfig : VehicleConfig
         {
             public override string VehicleType => "chinook";
@@ -1019,6 +1025,50 @@ namespace Oxide.Plugins
 
         private class Configuration : BaseConfiguration
         {
+            [JsonProperty("AttackHelicopter")]
+            public AttackHelicopterConfig AttackHelicopter = new AttackHelicopterConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1stash",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                        }
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2stashes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                            ["Right Stash"] = 48,
+                        }
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Left Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(-0.63f, 1.07f, 0.68f),
+                        RotationAngles = new Vector3(0, 270, 0),
+                    },
+                    ["Right Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0.63f, 1.07f, 0.68f),
+                        RotationAngles = new Vector3(0, 90, 0),
+                    },
+                },
+            };
+
             [JsonProperty("Chinook")]
             public ChinookConfig Chinook = new ChinookConfig
             {
@@ -2285,6 +2335,7 @@ namespace Oxide.Plugins
             {
                 var allVehicleConfigs = new VehicleConfig[]
                 {
+                    AttackHelicopter,
                     Chinook,
                     DuoSubmarine,
                     HotAirBalloon,

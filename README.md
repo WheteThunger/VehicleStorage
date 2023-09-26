@@ -182,6 +182,11 @@ The following permissions come with this plugin's **default configuration**. You
 - `vehiclestorage.scraptransport.1box` -- 1 x 48-slot box (48 total capacity)
 - `vehiclestorage.scraptransport.2boxes` -- 2 x 48-slot box (96 total capacity)
 
+#### Attack Helicopter
+
+- `vehiclestorage.attackhelicopter.1stash` -- 1 x 48-slot stash (48 total capacity)
+- `vehiclestorage.attackhelicopter.2stashes` -- 2 x 48-slot stash (96 total capacity)
+
 #### Chinook
 
 - `vehiclestorage.chinook.2boxes` -- 2 x 48-slot box (96 total capacity)
@@ -193,6 +198,54 @@ Default configuration:
 
 ```json
 {
+  "AttackHelicopter": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1stash",
+        "AdditionalStorage": {
+          "Left Stash": 48
+        }
+      },
+      {
+        "PermissionSuffix": "2stashes",
+        "AdditionalStorage": {
+          "Left Stash": 48,
+          "Right Stash": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Left Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": -0.63,
+          "y": 1.07,
+          "z": 0.68
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 270.0,
+          "z": 0.0
+        }
+      },
+      "Right Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.63,
+          "y": 1.07,
+          "z": 0.68
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 90.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
   "Chinook": {
     "DefaultProfile": {
       "AdditionalStorage": {}
@@ -1643,7 +1696,7 @@ Plugins can call this API to refresh a vehicle storage capacity and containers.
 #### OnVehicleStorageUpdate
 
 ```csharp
-bool? OnVehicleStorageUpdate(BaseEntity vehicle)
+object OnVehicleStorageUpdate(BaseEntity vehicle)
 ```
 
 - Called when this plugin is about to alter storage container capacity and/or spawn storage containers on a vehicle
@@ -1653,7 +1706,7 @@ bool? OnVehicleStorageUpdate(BaseEntity vehicle)
 #### OnVehicleStorageSpawn
 
 ```csharp
-bool? OnVehicleStorageSpawn(BaseEntity vehicle)
+object OnVehicleStorageSpawn(BaseEntity vehicle)
 ```
 
 - Called when this plugin is about to spawn a storage container on a vehicle
