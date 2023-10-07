@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.3.5")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.4.0")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
