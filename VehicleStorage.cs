@@ -321,7 +321,23 @@ namespace Oxide.Plugins
             if (SpawnStorageWasBlocked(vehicle))
                 return null;
 
-            var createdEntity = GameManager.server.CreateEntity(preset.Prefab, preset.Position, preset.Rotation);
+            Vector3 position;
+            Quaternion rotation;
+
+            var parentAfterSpawn = vehicle is HotAirBalloon && preset.Prefab == HabStoragePrefab;
+            if (parentAfterSpawn)
+            {
+                var vehicleTransform = vehicle.transform;
+                position = vehicleTransform.TransformPoint(preset.Position);
+                rotation = vehicleTransform.rotation * preset.Rotation;
+            }
+            else
+            {
+                position = preset.Position;
+                rotation = preset.Rotation;
+            }
+
+            var createdEntity = GameManager.server.CreateEntity(preset.Prefab, position, rotation);
             if (createdEntity == null)
                 return null;
 
@@ -334,8 +350,17 @@ namespace Oxide.Plugins
 
             container.name = preset.Name;
             SetupStorage(vehicle, container, preset);
-            container.SetParent(vehicle, preset.ParentBone);
-            container.Spawn();
+            if (parentAfterSpawn)
+            {
+                container.Spawn();
+                container.SetParent(vehicle, preset.ParentBone, worldPositionStays: true, sendImmediate: true);
+            }
+            else
+            {
+                container.SetParent(vehicle, preset.ParentBone);
+                container.Spawn();
+            }
+
             MoveOverlappingDismountPositions(vehicle, container);
             MaybeIncreaseCapacity(container, capacity);
             CallHookVehicleStorageSpawned(vehicle, container);
@@ -347,7 +372,9 @@ namespace Oxide.Plugins
                 : null;
 
             if (deployEffect != null)
+            {
                 Effect.server.Run(deployEffect, container.transform.position);
+            }
 
             return container;
         }
