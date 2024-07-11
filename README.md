@@ -48,6 +48,26 @@ The following permissions come with this plugin's **default configuration**. You
 
 - `vehiclestorage.modularcarstorage.1box` -- 8 rows + 1 x 48-slot box (96 total capacity)
 
+#### Motor Bike
+
+- `vehiclestorage.motorbike.1stash` -- 1 x 48-slot stash (48 total capacity)
+- `vehiclestorage.motorbike.2stashes` -- 2 x 42-slot stash (84 total capacity)
+
+#### Motor Bike Sidecar
+
+- `vehiclestorage.motorbike.sidecar.1stash` -- 1 x 48-slot stash (48 total capacity)
+- `vehiclestorage.motorbike.sidecar.2stashes` -- 2 x 42-slot stash (84 total capacity)
+- `vehiclestorage.motorbike.sidecar.3stashes` -- 3 x 48-slot stash (144 total capacity)
+
+#### Pedal Bike
+
+- `vehiclestorage.pedalbike.1stash` -- 1 x 48-slot stash (48 total capacity)
+
+#### Pedal Trike
+
+- `vehiclestorage.pedaltrike.1stash` -- 1 x 48-slot stash (48 total capacity)
+- `vehiclestorage.pedaltrike.2stashes` -- 2 x 42-slot stash (84 total capacity)
+
 #### Snowmobile
 
 - `vehiclestorage.snowmobile.3rows` -- 3 rows (18 total capacity)
@@ -791,6 +811,194 @@ Default configuration:
         "BuiltInStorageCapacity": 48
       }
     ]
+  },
+  "MotorBike": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1stash",
+        "AdditionalStorage": {
+          "Left Stash": 48
+        }
+      },
+      {
+        "PermissionSuffix": "2stashes",
+        "AdditionalStorage": {
+          "Left Stash": 48,
+          "Right Stash": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Left Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": -0.09,
+          "y": 0.8,
+          "z": -0.6
+        },
+        "RotationAngles": {
+          "x": -7.0,
+          "y": 265.0,
+          "z": 0.0
+        }
+      },
+      "Right Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.09,
+          "y": 0.8,
+          "z": -0.6
+        },
+        "RotationAngles": {
+          "x": -7.0,
+          "y": 95.0,
+          "z": 0.0
+        }
+      }
+    }
+  },
+  "MotorBikeSideCar": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1stash",
+        "AdditionalStorage": {
+          "Left Stash": 48
+        }
+      },
+      {
+        "PermissionSuffix": "2stashes",
+        "AdditionalStorage": {
+          "Left Stash": 48,
+          "Right Stash": 48
+        }
+      },
+      {
+        "PermissionSuffix": "3stashes",
+        "AdditionalStorage": {
+          "Left Stash": 48,
+          "Right Stash": 48,
+          "Back Stash": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Left Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": -0.09,
+          "y": 0.8,
+          "z": -0.6
+        },
+        "RotationAngles": {
+          "x": -7.0,
+          "y": 265.0,
+          "z": 0.0
+        }
+      },
+      "Right Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.09,
+          "y": 0.8,
+          "z": -0.6
+        },
+        "RotationAngles": {
+          "x": -7.0,
+          "y": 95.0,
+          "z": 0.0
+        }
+      },
+      "Back Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.72,
+          "y": 0.5,
+          "z": -0.65
+        },
+        "RotationAngles": {
+          "x": 185.0,
+          "y": 0.0,
+          "z": 90.0
+        }
+      }
+    }
+  },
+  "PedalBike": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1stash",
+        "AdditionalStorage": {
+          "Front Stash": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Front Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.0,
+          "y": 0.93,
+          "z": 0.48
+        }
+      }
+    }
+  },
+  "PedalTrike": {
+    "DefaultProfile": {
+      "AdditionalStorage": {}
+    },
+    "ProfilesRequiringPermission": [
+      {
+        "PermissionSuffix": "1stash",
+        "AdditionalStorage": {
+          "Left Stash": 48
+        }
+      },
+      {
+        "PermissionSuffix": "2stashes",
+        "AdditionalStorage": {
+          "Left Stash": 48,
+          "Right Stash": 48
+        }
+      }
+    ],
+    "ContainerPresets": {
+      "Left Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": -0.28,
+          "y": 0.67,
+          "z": -0.7
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": 265.0,
+          "z": 278.0
+        }
+      },
+      "Right Stash": {
+        "Prefab": "assets/prefabs/deployable/hot air balloon/subents/hab_storage.prefab",
+        "Position": {
+          "x": 0.28,
+          "y": 0.67,
+          "z": -0.7
+        },
+        "RotationAngles": {
+          "x": 0.0,
+          "y": -265.0,
+          "z": -278.0
+        }
+      }
+    }
   },
   "ModularCarStorageModule": {
     "DefaultProfile": {

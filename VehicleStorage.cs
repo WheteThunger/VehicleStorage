@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oxide.Core;
 using Oxide.Core.Libraries;
@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.4.0")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.5.0")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -948,6 +948,30 @@ namespace Oxide.Plugins
                 (entity as VehicleModuleCamper)?.Vehicle?.OwnerID ?? 0;
         }
 
+        private class MotorBikeConfig : VehicleConfig
+        {
+            public override string VehicleType => "motorbike";
+            public override string PrefabPath => "assets/content/vehicles/bikes/motorbike.prefab";
+        }
+
+        private class MotorBikeSideCarConfig : VehicleConfig
+        {
+            public override string VehicleType => "motorbike.sidecar";
+            public override string PrefabPath => "assets/content/vehicles/bikes/motorbike_sidecar.prefab";
+        }
+
+        private class PedalBikeConfig : VehicleConfig
+        {
+            public override string VehicleType => "pedalbike";
+            public override string PrefabPath => "assets/content/vehicles/bikes/pedalbike.prefab";
+        }
+
+        private class PedalTrikeConfig : VehicleConfig
+        {
+            public override string VehicleType => "pedaltrike";
+            public override string PrefabPath => "assets/content/vehicles/bikes/pedaltrike.prefab";
+        }
+
         private class RHIBConfig : RowboatConfig
         {
             public override string VehicleType => "rhib";
@@ -1574,7 +1598,182 @@ namespace Oxide.Plugins
                     },
                 },
             };
+            [JsonProperty("MotorBike")]
+            public MotorBikeConfig MotorBike = new MotorBikeConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1stash",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                        }
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2stashes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                            ["Right Stash"] = 48,
+                        }
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Left Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(-0.09f, 0.8f, -0.6f),
+                        RotationAngles = new Vector3(-7, 265, 0),
+                    },
+                    ["Right Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0.09f, 0.8f, -0.6f),
+                        RotationAngles = new Vector3(-7, 95, 0),
+                    },
+                },
+            };
 
+            [JsonProperty("MotorBikeSideCar")]
+            public MotorBikeSideCarConfig MotorBikeSideCar = new MotorBikeSideCarConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1stash",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                        }
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2stashes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                            ["Right Stash"] = 48,
+                        }
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "3stashes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                            ["Right Stash"] = 48,
+                            ["Back Stash"] = 48
+                        }
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Left Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(-0.09f, 0.8f, -0.6f),
+                        RotationAngles = new Vector3(-7, 265, 0),
+                    },
+                    ["Right Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0.09f, 0.8f, -0.6f),
+                        RotationAngles = new Vector3(-7, 95, 0),
+                    },
+                    ["Back Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0.72f, 0.5f, -0.65f),
+                        RotationAngles = new Vector3(185, 0, 90),
+                    },
+                },
+            };
+
+            [JsonProperty("PedalBike")]
+            public PedalBikeConfig PedalBike = new PedalBikeConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1stash",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Front Stash"] = 48,
+                        }
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Front Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0, 0.93f, 0.48f),
+                        RotationAngles = new Vector3(0, 0, 0),
+                    }
+                },
+            };
+
+            [JsonProperty("PedalTrike")]
+            public PedalTrikeConfig PedalTrike = new PedalTrikeConfig
+            {
+                DefaultProfile = new VehicleProfile
+                {
+                    AdditionalStorage = new Dictionary<string, int>(),
+                },
+                ProfilesRequiringPermission = new[]
+                {
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "1stash",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                        }
+                    },
+                    new VehicleProfile
+                    {
+                        PermissionSuffix = "2stashes",
+                        AdditionalStorage = new Dictionary<string, int>
+                        {
+                            ["Left Stash"] = 48,
+                            ["Right Stash"] = 48,
+                        }
+                    },
+                },
+                ContainerPresets = new Dictionary<string, ContainerPreset>
+                {
+                    ["Left Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(-0.28f, 0.67f, -0.7f),
+                        RotationAngles = new Vector3(0, 265, 278),
+                    },
+                    ["Right Stash"] = new ContainerPreset
+                    {
+                        Prefab = HabStoragePrefab,
+                        Position = new Vector3(0.28f, 0.67f, -0.7f),
+                        RotationAngles = new Vector3(0, -265, -278),
+                    },
+                },
+            };
             [JsonProperty("ModularCarStorageModule")]
             public ModularCarStorageModuleConfig ModularCarStorageModule = new ModularCarStorageModuleConfig
             {
@@ -2372,6 +2571,10 @@ namespace Oxide.Plugins
                     Minicopter,
                     ModularCarCamperModule,
                     ModularCarStorageModule,
+                    MotorBike,
+                    MotorBikeSideCar,
+                    PedalBike,
+                    PedalTrike,
                     RHIB,
                     RidableHorse,
                     Rowboat,
