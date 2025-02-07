@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.5.0")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.5.1")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -981,7 +981,7 @@ namespace Oxide.Plugins
         private class RidableHorseConfig : VehicleConfig
         {
             public override string VehicleType => "ridablehorse";
-            public override string PrefabPath => "assets/rust.ai/nextai/testridablehorse.prefab";
+            public override string PrefabPath => "assets/content/vehicles/horse/ridablehorse2.prefab";
         }
 
         private class RowboatConfig : VehicleConfig
