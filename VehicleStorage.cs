@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("Vehicle Storage", "WhiteThunder", "3.5.1")]
+    [Info("Vehicle Storage", "WhiteThunder", "3.5.2")]
     [Description("Allows adding storage containers to vehicles and increasing built-in storage capacity.")]
     internal class VehicleStorage : CovalencePlugin
     {
@@ -49,7 +49,7 @@ namespace Oxide.Plugins
         private void OnServerInitialized()
         {
             _config.Init(this);
-            _containerBoundsManager.OnServerInitialized(this);
+            _containerBoundsManager.OnServerInitialized();
 
             foreach (var networkable in BaseNetworkable.serverEntities)
             {
@@ -269,6 +269,9 @@ namespace Oxide.Plugins
         #endregion
 
         #region Helper Methods
+
+        public static void LogError(string message) => Interface.Oxide.LogError($"[Vehicle Storage] {message}");
+        public static void LogWarning(string message) => Interface.Oxide.LogWarning($"[Vehicle Storage] {message}");
 
         private void RemoveProblemComponents(BaseEntity entity)
         {
@@ -524,21 +527,21 @@ namespace Oxide.Plugins
 
             private readonly Dictionary<uint, Bounds> _boundsReplacementsByPrefabId = new Dictionary<uint, Bounds>();
 
-            public void OnServerInitialized(VehicleStorage plugin)
+            public void OnServerInitialized()
             {
                 foreach (var entry in _boundsReplacements)
                 {
                     var destinationEntity = GameManager.server.FindPrefab(entry.Key)?.GetComponent<BaseEntity>();
                     if (destinationEntity == null)
                     {
-                        plugin.LogWarning($"Prefab not found: {entry.Key}");
+                        LogWarning($"Prefab not found: {entry.Key}");
                         continue;
                     }
 
                     var sourceEntity = GameManager.server.FindPrefab(entry.Value)?.GetComponent<BaseEntity>();
                     if (sourceEntity == null)
                     {
-                        plugin.LogWarning($"Prefab not found: {entry.Value}");
+                        LogWarning($"Prefab not found: {entry.Value}");
                         continue;
                     }
 
@@ -795,13 +798,13 @@ namespace Oxide.Plugins
                         ContainerPreset preset;
                         if (!vehicleConfig.ContainerPresets.TryGetValue(presetName, out preset))
                         {
-                            pluginInstance.LogError($"Storage preset {vehicleConfig.VehicleType} -> \"{presetName}\" does not exist.");
+                            LogError($"Storage preset {vehicleConfig.VehicleType} -> \"{presetName}\" does not exist.");
                             continue;
                         }
 
                         if (string.IsNullOrEmpty(preset.Prefab))
                         {
-                            pluginInstance.LogError($"Missing prefab for preset {vehicleConfig.VehicleType} -> \"{presetName}\".");
+                            LogError($"Missing prefab for preset {vehicleConfig.VehicleType} -> \"{presetName}\".");
                             continue;
                         }
 
@@ -981,7 +984,7 @@ namespace Oxide.Plugins
         private class RidableHorseConfig : VehicleConfig
         {
             public override string VehicleType => "ridablehorse";
-            public override string PrefabPath => "assets/content/vehicles/horse/ridablehorse2.prefab";
+            public override string PrefabPath => "assets/content/vehicles/horse/ridablehorse.prefab";
         }
 
         private class RowboatConfig : VehicleConfig
@@ -2596,7 +2599,14 @@ namespace Oxide.Plugins
                 {
                     // Map the configs by prefab id for fast lookup.
                     var prefabId = StringPool.Get(vehicleConfig.PrefabPath);
-                    _vehicleConfigsByPrefabId[prefabId] = vehicleConfig;
+                    if (prefabId != 0)
+                    {
+                        _vehicleConfigsByPrefabId[prefabId] = vehicleConfig;
+                    }
+                    else
+                    {
+                        LogError($"Invalid prefab. Please alert the plugin maintainer -- {vehicleConfig.PrefabPath}");
+                    }
 
                     // Validate correctness, and register permissions.
                     vehicleConfig.Init(pluginInstance);
